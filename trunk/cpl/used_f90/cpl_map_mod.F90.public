@@ -1,0 +1,7 @@
+   public :: cpl_map
+   public :: cpl_map_init      ! initialize a map
+   public :: cpl_map_clean     ! clean/dealloc a map
+   public :: cpl_map_info      ! obtain information about a map
+   public :: cpl_map_bun       ! map from one bundle to another
+   public :: cpl_map_npFix     ! fix NP values wrt mapping vector fields
+   character(*),parameter,public :: cpl_map_areaAV_field = 'aream'

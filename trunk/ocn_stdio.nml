@@ -1,0 +1,5 @@
+&stdio
+   dir    = "/home/steder/pyCPL    "
+   stdin  = "ocn.stdin "
+   stdout = "ocn.log.060111-161841   "
+   /

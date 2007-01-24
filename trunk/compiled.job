@@ -1,0 +1,52 @@
+#!/bin/bash
+#PBS -l nodes=2
+#PBS -l walltime=0:02:00
+#PBS -j oe 
+#PBS -N deadmodels
+# Set Environment variables:
+#PBS -V
+###PBS -v SIDL_DLL_PATH=/home/steder/software/lib
+# set $NN to have the current number of nodes 
+export NN=`wc -l $PBS_NODEFILE | awk '{print $1}'`
+
+echo '========================================'
+
+echo 'pycpl-atm:  A 2 processor run with an dead atmosphere xatm'
+echo 'and a python coupler'
+
+# print out the list of nodes
+echo 'NODES: '
+cat $PBS_NODEFILE
+
+echo '========================================'
+
+# SETUP ENVIRONMENT VARIABLES
+export SIDL_DLL_PATH=/home/steder/software/lib
+export SIDL_DEBUG_DLOPEN=1
+
+export RUNPATH=/home/steder/pyCPL
+
+# run an mpirun job
+export NUMBERS=$RUNPATH/numbers.pgi
+export NAMES=$RUNPATH/compiled.pgi
+export PGIFILE=$RUNPATH/temp2.pgi
+paste -d'\ ' $PBS_NODEFILE $NUMBERS $NAMES > $PGIFILE
+export EXEC1=$RUNPATH/xatm
+
+export EXEC2=/home/steder/software/bin/pyMPI
+export SCRIPT=$RUNPATH/main.py
+
+export HELLO=$RUNPATH/hello.py
+cd $RUNPATH
+# Run just 1:
+#mpirun -np $NN  $EXEC1
+#mpirun -np $NN $EXEC2 $SCRIPT
+# Run both executables:
+#   XATM First
+#mpirun -p4pg $PGIFILE $EXEC1
+#   Python Coupler First
+#mpirun -np $NN $EXEC2 $HELLO
+# -pg is the only part necessary to use multiple executables
+# -p4pg says (i think) use ethernet and multiple executables
+mpirun -p4pg $PGIFILE $EXEC1 #-p4dbg 20 -p4rdbg 20
+

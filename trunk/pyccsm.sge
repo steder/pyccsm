@@ -1,0 +1,31 @@
+#!/bin/csh
+#$ -N ccsm-output
+#$ -pe mpich 5
+##$ -pe mpich_opterons 1
+#$ -cwd
+#$ -v ATM=/home/steder/exe/pyccsmtest/my_all/cam
+#$ -v ICE=/home/steder/exe/pyccsmtest/my_all/csim
+#$ -v LND=/home/steder/exe/pyccsmtest/my_all/clm
+#$ -v OCN=/home/steder/exe/pyccsmtest/my_all/pop
+#$ -v CPL=/home/steder/exe/pyccsmtest/my_all/cpl.exe
+#$ -v PYCPL=/home/steder/pyCPL/coupler.py
+#$ -v MPDALLEXIT=/usr/local/pkgs/mpich2-eth-pgi-4.1/bin/mpdallexit.py
+#$ -v MPDBOOT=/usr/local/pkgs/mpich2-eth-pgi-4.1/bin/mpdboot.py
+#$ -v MPIEXEC=/usr/local/pkgs/mpich2-eth-pgi-4.1/bin/mpiexec.py 
+#$ -v PYTHON=/home/steder/software/bin/python2.4
+
+echo "GOT $NSLOTS slots"
+echo $TMPDIR/machines
+cat $TMPDIR/machines
+
+##$MPICH/mpirun.ch_gm -np $NSLOTS -machinefile $TMPDIR/machines pccm3uw
+##/usr/local/bin/mpirun.ch_gm -np 4 -machinefile $PBS_NODEFILE pccm3uw
+
+##/home/steder/software/bin/python2.4 $MPIEXEC -l -envall -n 1 python2.4 /home/steder/pyCPL/coupler.py : -n 1 /home/steder/pyCPL/xatm : -n 1 /home/steder/pyCPL/xice : -n 1 /home/steder/pyCPL/xocn : -n 1 /home/steder/pyCPL/xlnd 
+
+
+$PYTHON $MPDALLEXIT
+$PYTHON $MPDBOOT
+###$PYTHON -u $MPIEXEC -l -envall -n 2 $PYCPL : -n 8 $ICE : -n 6 $LND : -n 24 $OCN : -n 16 $ATM
+$PYTHON -u $MPIEXEC -l -envall -n 2 $CPL : -n 8 $ICE : -n 6 $LND : -n 24 $OCN : -n 16 $ATM
+

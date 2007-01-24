@@ -1,0 +1,146 @@
+"""
+comm.py
+
+Python Version of cpl_comm_mod.F90
+
+The names of these constants have been changed to reflect that
+they are defined inside of a python class and namespace information
+does not have to be encoded in the variable names.
+
+Hopefully the name changes are clear(er) and more easily understood.
+
+Relies on F2py'd MPH Module: pymph
+
+A call to 'init'
+
+returns a local communicator for all the processors in this model 
+component.  The 'init' call invokes a series of MPH routines to 
+set all of the module's constants, and finishes by initializing MCT's
+World.
+"""
+
+
+# Required External Modules
+import mpi
+from _pymph import mphmod
+
+# Standard Python Modules
+import string
+
+# Coupler Library Modules
+import fields
+
+
+#mph_components, mph_global_proc_id, mph_local_proc_id, mph_total_components, mph_comp_id, mph_local_totprocs, mph_global_totprocs, mph_global_id, mph_comp_name, mph_global_world
+
+from MCT import World
+
+class Component:
+    def __init__(self):
+        self.mct_world = World.World()
+        self.world_comm = None
+        self.world_npe = None
+        self.world_pid = None
+        self.local_comm = None
+        self.component_npe = None
+        self.component_pid = None
+        self.names = fields.component_names + "self"
+        self.mph_component_id = {}
+        self.world_pe0 = {}
+        for name in names:
+            self.mph_component_id[ name ] = None
+            self.world_pe0[ name ] = None
+
+    def size( self ):
+        """
+        Returns size (in processors) of this component.  Similar to just
+        calling MPI_Comm_size on this components communicator
+        """
+        return self.component_npe
+
+    def root( self ):
+        """
+        Returns the processor id (MPI-speak: rank) of the root processor in
+        this component (node 0 of this communicator).
+        """
+        return self.component_pid
+            
+    def init( self, name ):
+        """
+        local_communicator = comm.init( name )
+    
+        Where 'name' is usually one of the following
+        ['atm','ice','lnd','ocn','cpl']
+    
+        Returns a MPI communicator object containing all the processors
+        with the same processor id(name) as this component.
+        """
+        print "setting up communicators, name =", name
+    
+        # Make sure assignments go to the global variables above:
+        
+        comm = mphmod.mph_components( name )
+        # Comm is a fortran object:  
+        # let's use mpi.communicator(an undocumented pyMPI feature)
+        # to generate a python communicator.
+        comm = mpi.communicator(comm)
+        world_comm = mphmod.mph_global_world
+        self.world_comm = mpi.communicator(world_comm)
+    
+        self.world_pid = mphmod.mph_global_proc_id()
+        self.world_npe = mphmod.mph_global_totprocs()
+        self.world_pe0 = mphmod.mph_global_id(name, 0)
+        
+        local_comm = comm
+        self.mph_component_id["self"] = mphmod.mph_comp_id(name)
+        self.component_pid = mphmod.mph_local_proc_id(mph_component_id)
+        self.component_npe = mphmod.mph_local_totprocs(mph_component_id)
+        
+        #print type(comm),comm
+        print "local communicator, size:",comm, comm.size
+
+        # Determine MPH Component ID's and comm_world pe0's for all components
+        n = mphmod.mph_total_components()
+        print "Determining MPH Component ID's for all %d components..."%(n)
+        for cid in xrange( 1, n+1 ): # Component ID's start at 1, not 0
+            name = mphmod.mph_comp_name(cid)
+            name = name.strip() # remove leading/trailing whitespace
+            if ( name == fields.atmname ):
+                mph_component_id["atm"] = cid
+                world_pe0["atm"] = mphmod.mph_global_id( fields.atmname, 0 )
+            elif ( name == fields.icename ):
+                mph_component_id["ice"] = cid
+                world_pe0["ice"] = mphmod.mph_global_id( fields.icename, 0 )
+            elif ( name == fields.lndname ):
+                mph_component_id["lnd"] = cid
+                world_pe0["lnd"] = mphmod.mph_global_id( fields.lndname, 0 )
+            elif ( name == fields.ocnname ):
+                mph_component_id["ocn"] = cid
+                world_pe0["ocn"] = mphmod.mph_global_id( fields.ocnname, 0 )
+            elif ( name == fields.cplname ):
+                mph_component_id["cpl"] = cid
+                world_pe0["cpl"] = mphmod.mph_global_id( fields.cplname, 0 )
+            else:
+                #print "[%s]"%(name)
+                print "mph_component_name error:",name," is not a supported name."
+                # Raise Exception:  MPH_COMPONENT_NAME_ERROR
+        
+        # Initialize MCT:
+        if( mpi.WORLD.size >= mphmod.mph_total_components() ):
+            mct_world.initd0( mphmod.mph_total_components(), world_comm, local_comm, mph_component_id )
+        else:
+            print "** Warning:  MCT World was NOT initialzed because there are fewer processors then components (no way to initialize without deadlocking) **"
+        return local_comm
+
+if __name__=="__main__":
+    mycomm = Component()
+    if ((mpi.rank % 5) == 0):
+        mycomm.init( "atm" )
+    elif ((mpi.rank % 5) == 1):
+        mycomm.init( "ocn" )
+    elif ((mpi.rank % 5) == 2):
+        mycomm.init( "lnd" )
+    elif ((mpi.rank % 5) == 3):
+        mycomm.init( "ice" )
+    else:
+        mycomm.init( "cpl" )

@@ -1,0 +1,68 @@
+3/15/06:
+Important Files:
+*flux.py -- static variables require us to wrap methods into callable objects
+*merge.py -- 
+
+*data_mod.py -- rolled into coupler.py
+
+*coupler.py
+ - generate a netcdf file with some state data from one of the models 
+   to verify that the data looks sane (2d grid of sin waves).
+ - another netcdf of a remapped grid
+
+-------
+*cpl/
+  *map.py -- fix Map.mapAV (bundlemult and arguments)
+
+
+1/11/06:
+
+I think that the division of contracts into sending and receiving contracts is really pointless.  I think that 
+it might make a lot more sense to either unite these into one contract object, or compose them into a super 
+contract object that hides the bookkeeping of the sending and recving contracts.
+
+For instance, in the main integration loop:
+--------
+recvcontract.recv()
+data = recvcontract.data
+infobuf = recvcontract.infobuffer
+# check infobuffer 
+# if infobuffer.flag
+#    do something
+# compute fluxes and regrid data
+sendcontract.data = data
+sendcontract.infobuffer = infobuf
+sendcontract.send()
+---------
+
+Should really become:
+---------
+contract.init( ) # init combo send/recv contract
+data = contract.recv()
+infobuf = contract.infobuffer
+# Do Stuff
+contract.data = data
+contract.infobuffer = infobuf
+contract.send()
+
+12/14/05:
+
+Adding Sending/Receiving of AttrVects to Contract Initialization
+
+Fields.py:  remove hardcoded indices
+            define totals from the length of the fields lists
+    
+
+TODO as of 7/14/05:
+
+Develop a good way to test this.  Since we can't run against fortran code at the moment maybe a Python test application needs to be written (a python deadmodel).
+
+Implement the Map algorithm from cpl_map_mod.F90 and add it to map.py.
+
+Implement "main.py", this is difficult without being able to run this thing against a model.  
+
+SCRIP Support?
+
+Improve Read/Write of Namelist files (it's really quick'n'dirty at the moment).
+
+

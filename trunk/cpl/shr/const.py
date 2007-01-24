@@ -1,0 +1,41 @@
+"""
+shr.const
+
+equivalent of shr_const_mod.F90
+"""
+PI      =  3.14159265358979323846#_SHR_KIND_R8  
+CDAY    =  86400.0#_SHR_KIND_R8      
+SDAY    =  86164.0#_SHR_KIND_R8      
+OMEGA   =  2.0*PI/SDAY 
+REARTH  =  6.37122e6#_SHR_KIND_R8    
+G       =  9.80616#_SHR_KIND_R8      
+PSTD    =  101325.0#_SHR_KIND_R8     
+STEBOL  =  5.67e-8#_SHR_KIND_R8      
+BOLTZ   =  1.38065e-23#_SHR_KIND_R8  
+AVOGAD  =  6.02214e26#_SHR_KIND_R8   
+RGAS    =  AVOGAD*BOLTZ 
+MWDAIR  =  28.966#_SHR_KIND_R8       
+MWWV    =  18.016#_SHR_KIND_R8       
+RDAIR   =  RGAS/MWDAIR  
+RWV     =  RGAS/MWWV    
+ZVIR    =  (RWV/RDAIR)-1.0#_SHR_KIND_R8   
+KARMAN  =  0.4#_SHR_KIND_R8          
+TKFRZ   =  273.16#_SHR_KIND_R8       
+TKTRIP  =  273.16#_SHR_KIND_R8    
+
+# density of dry air at STP ~ kg/m^3
+RHODAIR = PSTD/(RDAIR*TKFRZ)
+RHOFW   =  1.000e3#_SHR_KIND_R8      
+RHOSW   =  1.026e3#_SHR_KIND_R8      
+RHOICE  =  0.917e3#_SHR_KIND_R8      
+CPDAIR  =  1.00464e3#_SHR_KIND_R8    
+CPFW    =  4.188e3#_SHR_KIND_R8      
+CPSW    =  3.996e3#_SHR_KIND_R8      
+CPWV    =  1.810e3#_SHR_KIND_R8      
+CPICE   =  2.11727e3#_SHR_KIND_R8    
+LATICE  =  3.337e5#_SHR_KIND_R8      
+LATVAP  =  2.501e6#_SHR_KIND_R8      
+LATSUB  =  LATICE + LATVAP 
+OCN_REF_SAL  =  34.7#_SHR_KIND_R8    
+ICE_REF_SAL  =   4.0#_SHR_KIND_R8    
+SPVAL        =  1.0e30#_SHR_KIND_R8  

@@ -1,0 +1,5 @@
+&stdio
+   dir    = "/home/steder/exe/deadtest/cpl    "
+   stdin  = "cpl.stdin "
+   stdout = "cpl.log.060329-143144   "
+   /

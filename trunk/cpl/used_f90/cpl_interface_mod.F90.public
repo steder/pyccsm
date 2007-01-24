@@ -1,0 +1,10 @@
+   public :: cpl_interface_init
+   public :: cpl_interface_finalize
+   public :: cpl_interface_ibufSend
+   public :: cpl_interface_ibufRecv
+   public :: cpl_interface_infobufSend
+   public :: cpl_interface_infobufRecv
+   public :: cpl_interface_contractSend
+   public :: cpl_interface_contractRecv
+   public :: cpl_interface_contractInit
+   public :: cpl_interface_dbugSet   ! set this module's internal dbug level

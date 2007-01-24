@@ -1,0 +1,62 @@
+
+Warnings...
+
+cpl/contract.py:10: Imported module (time) not used
+cpl/contract.py:15: Imported module (MCT) not used
+cpl/contract.py:16: Using import and from ... import for (MCT)
+cpl/contract.py:44: No module attribute (local_comm) found
+cpl/contract.py:45: No module attribute (mph_component_id) found
+cpl/contract.py:46: No module attribute (mph_component_id) found
+cpl/contract.py:48: No module attribute (world_pe0_cpl) found
+cpl/contract.py:50: No module attribute (world_pe0_atm) found
+cpl/contract.py:52: No module attribute (world_pe0_ocn) found
+cpl/contract.py:54: No module attribute (world_pe0_ice) found
+cpl/contract.py:56: No module attribute (world_pe0_lnd) found
+cpl/contract.py:63: No module attribute (mph_component_id_cpl) found
+cpl/contract.py:64: No module attribute (mph_component_id_atm) found
+cpl/contract.py:65: No module attribute (mph_component_id_lnd) found
+cpl/contract.py:66: No module attribute (mph_component_id_rtm) found
+cpl/contract.py:67: No module attribute (mph_component_id_ocn) found
+cpl/contract.py:68: No module attribute (mph_component_id_ice) found
+cpl/contract.py:74: No module attribute (mph_component_id_atm) found
+cpl/contract.py:75: No module attribute (world_pe0_atm) found
+cpl/contract.py:78: No module attribute (mph_component_id_lnd) found
+cpl/contract.py:79: No module attribute (world_pe0_lnd) found
+cpl/contract.py:82: No module attribute (mph_component_id_rtm) found
+cpl/contract.py:83: No module attribute (world_pe0_rtm) found
+cpl/contract.py:86: No module attribute (mph_component_id_ocn) found
+cpl/contract.py:87: No module attribute (world_pe0_ocn) found
+cpl/contract.py:90: No module attribute (mph_component_id_ice) found
+cpl/contract.py:91: No module attribute (world_pe0_ice) found
+cpl/contract.py:94: No module attribute (mph_component_id_cpl) found
+cpl/contract.py:95: No module attribute (world_pe0_cpl) found
+cpl/contract.py:123: Parameter (indx) not used
+cpl/contract.py:127: Local variable (gsize) not used
+cpl/contract.py:186: Parameter (buf) not used
+cpl/contract.py:195: No module attribute (component_pid) found
+cpl/contract.py:197: No module attribute (world_comm) found
+cpl/contract.py:199: No module attribute (local_comm) found
+cpl/contract.py:228: No module attribute (component_npe) found
+cpl/contract.py:228: No module attribute (component_pid) found
+cpl/contract.py:230: No global (component_npe) found
+cpl/contract.py:230: No module attribute (component_pid) found
+cpl/contract.py:324: Overridden method (execute) doesn't match signature in class (contract.Contract)
+cpl/contract.py:327: __recv__ is not a special method
+cpl/contract.py:333: No global (mypid) found
+cpl/contract.py:334: No global (tag) found
+cpl/contract.py:344: Parameter (decomp) not used
+cpl/contract.py:350: No module attribute (component_pid) found
+cpl/contract.py:355: No module attribute (world_comm) found
+cpl/contract.py:359: Local variable (giSize) not used
+cpl/contract.py:360: Local variable (gjSize) not used
+cpl/contract.py:373: No global (gsize) found
+cpl/contract.py:378: Local variable (i) not used
+cpl/contract.py:406: No module attribute (gSize) found
+cpl/contract.py:407: No module attribute (giSize) found
+cpl/contract.py:408: No module attribute (gjSize) found
+cpl/contract.py:410: No global (field) found
+cpl/contract.py:422: No module attribute (world_pid) found
+cpl/contract.py:430: No class attribute (comain) found
+cpl/contract.py:437: Overridden method (execute) doesn't match signature in class (contract.Contract)
+cpl/contract.py:440: __send__ is not a special method
+cpl/contract.py:451: No class attribute (infobuf) found

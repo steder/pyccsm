@@ -1,0 +1,13 @@
+PyCPL(6)
+
+A Python version of the CCSM Coupler and CPL6 Library
+
+including a Python binding to the Multi Program Handshaking Library developed originally at NASA.
+
+Mike Steder
+Climate Systems Center
+2005
+
+This is the initial version, and the first thing I'm going to submit to CVS.
+
+

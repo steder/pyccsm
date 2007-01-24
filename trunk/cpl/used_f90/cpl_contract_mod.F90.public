@@ -1,0 +1,7 @@
+   public :: cpl_contract
+   public :: cpl_contract_execute
+   public :: cpl_contract_send
+   public :: cpl_contract_recv
+   public :: cpl_contract_init
+   public :: cpl_contract_initSend
+   public :: cpl_contract_initRecv

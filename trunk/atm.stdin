@@ -1,0 +1,9 @@
+atm                  !  myModelName (must match one in cpl_fields_mod)
+96                  !  i-direction global dimension
+48                  !  j-direction global dimension
+1                    !  decomp_type  1=1d-in-i, 2=1d-in-j, 3=2d, 4=segmented
+0                    !  num of pes for i (type 3 only)
+0                    !  length of segments (type 4 only)
+24                   !  ncpl  number of communications w/coupler per day
+0.0                  !  simul time proxy (secs): time between cpl comms
+1                    !  ignore_mph flag

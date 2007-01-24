@@ -1,0 +1,163 @@
+Script started on Mon Jan 10 16:06:03 2005
+bash-2.05$ make
+mpif90 -v -c  -I/home/steder/software/include -I/soft/apps/packages/mpich-1.2.5.2-1-absoft-8.0/include  cpl_comm_mod.F90
+mpif90 for 1.2.5 (release) of : 2003/01/13 16:21:53
+/lib/cpp -traditional -I/home/steder/software/include -I/soft/apps/packages/mpich-1.2.5.2-1-absoft-8.0/include -E cpl_comm_mod.F90 -o /tmp/770b__cpl_comm_mod.cpp 
+/soft/com/packages/absoft-8.0/opt/absoft//bin/f90fe -YEXT_NAMES=LCS -YEXT_SFX=_ -p/soft/apps/packages/mpich-1.2.5.2-1-absoft-8.0/include/f90choice -I/home/steder/software/include -I/soft/apps/packages/mpich-1.2.5.2-1-absoft-8.0/include -ffree -p SHR_SYS_MOD.mod -p SHR_MPI_MOD.mod -p SHR_KIND_MOD.mod -p SHR_CONST_MOD.mod -p M_ZEIT.mod -p M_TRANSFER.mod -p M_TRACEBACK.mod -p M_STRTEMPLATE.mod -p M_STRING.mod -p M_STDIO.mod -p M_SPATIALINTEGRALV.mod -p M_SPATIALINTEGRAL.mod -p M_SPARSEMATRIXTOMAPS.mod -p M_SPARSEMATRIXPLUS.mod -p M_SPARSEMATRIXDECOMP.mod -p M_SPARSEMATRIXCOMMS.mod -p M_SPARSEMATRIX.mod -p M_SORTINGTOOLS.mod -p M_ROUTER.mod -p M_REARRANGER.mod -p M_REALKINDS.mod -p M_RANKMERGE.mod -p M_PERMUTER.mod -p M_NAVIGATOR.mod -p M_MPOUT.mod -p M_MPIF90.mod -p M_MPIF.mod -p M_MERGESORTS.mod -p M_MERGE.mod -p M_MCTWORLD.mod -p M_MATATTRVECTMUL.mod -p M_MALL.mod -p M_LIST.mod -p M_IOUTIL.mod -p M_INPAK90.mod -p M_INDEXBIN_LOGICAL.mod -p M_INDEXBIN_INTEGER.mod -p M_INDEXBIN_CHAR.mod -p M_GLOBALTOLOCAL.mod -p M_GLOBALSEGMAPCOMMS.mod -p M_GLOBALSEGMAP.mod -p M_GLOBALMAP.mod -p M_GENERALGRIDCOMMS.mod -p M_GENERALGRID.mod -p M_FLOW.mod -p M_FILERESOLV.mod -p M_FILENAME.mod -p M_EXCHANGEMAPS.mod -p M_DROPDEAD.mod -p M_DIE.mod -p M_CONVERTMAPS.mod -p M_CHARS.mod -p M_ATTRVECTREDUCE.mod -p M_ATTRVECTCOMMS.mod -p M_ATTRVECT.mod -p M_ACCUMULATORCOMMS.mod -p M_ACCUMULATOR.mod -p CPL_MCT_MOD.mod -p CPL_KIND_MOD.mod -p CPL_FIELDS_MOD.mod -p CPL_CONST_MOD.mod -p CPL_COMM_MOD.mod -Ab -F /tmp/770b__cpl_comm_mod.bif /tmp/770b__cpl_comm_mod.cpp 
+
+module cpl_comm_mod
+       ^            
+cf90-855 f90fe: ERROR CPL_COMM_MOD, File = cpl_comm_mod.F90, Line = 21, Column = 8 
+  The compiler has detected errors in module "CPL_COMM_MOD".  No module information file will be created for this module.
+
+if myid .eq. 0 then
+   ^                
+cf90-197 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 154, Column = 4 
+  Unexpected syntax: "(" was expected but found "m".
+
+    MPI_Recv( temp_buff, MAXNAMELEN, MPI_CHAR, n+1, 7, MPI_COMM_WORLD, status, ierr )
+    ^                                                                                 
+cf90-281 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 157, Column = 5 
+  The left hand side of an assignment statement must be a variable or a function result.
+
+  MPI_Bcast( names, numprocs * MAXNAMELEN, MPI_CHAR, 0, MPI_COMM_WORLD, ierr )
+  ^                                                                            
+cf90-281 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 163, Column = 3 
+  The left hand side of an assignment statement must be a variable or a function result.
+
+else
+^    
+cf90-289 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 165, Column = 1 
+  This ELSE statement has no matching IF statement.
+
+  MPI_Send( name, MAXNAMELEN, MPI_CHAR, 0, 7, MPI_COMM_WORLD, status, ierr )
+  ^                                                                          
+cf90-281 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 166, Column = 3 
+  The left hand side of an assignment statement must be a variable or a function result.
+
+  MPI_Bcast( names, numprocs * MAXNAMELEN, MPI_CHAR, 0, MPI_COMM_WORLD, ierr )
+  ^                                                                            
+cf90-281 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 167, Column = 3 
+  The left hand side of an assignment statement must be a variable or a function result.
+
+end if
+^      
+cf90-289 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 168, Column = 1 
+  This END IF statement has no matching IF statement.
+
+    if names(i,:) .eq. myname then
+       ^                           
+cf90-197 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 173, Column = 8 
+  Unexpected syntax: "(" was expected but found "n".
+
+        MPI_COMM_SPLIT( MPI_COMM_WORLD, color, myid, comm, ierr )
+        ^                                                         
+cf90-281 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 174, Column = 9 
+  The left hand side of an assignment statement must be a variable or a function result.
+
+    else
+    ^    
+cf90-289 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 176, Column = 5 
+  This ELSE statement has no matching IF statement.
+
+        color += 1
+              ^    
+cf90-724 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 177, Column = 15 
+  Unknown statement.  Expected assignment statement but found "+" instead of "=" or "=>".
+
+    end if
+    ^      
+cf90-289 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 178, Column = 5 
+  This END IF statement has no matching IF statement.
+
+end subroutine cpl_comm_init(name,comm)
+                            ^           
+cf90-197 f90fe: ERROR CPL_COMM_INIT, File = cpl_comm_mod.F90, Line = 184, Column = 29 
+  Unexpected syntax: "EOS" was expected but found "(".
+
+f90: Copyright Absoft Corporation 1994-2002; Absoft Pro FORTRAN Version 8.0 
+f90fe: 187 source lines
+f90fe: 14 Errors, 0 Warnings, 0 Other messages, 0 ANSI
+
+make: *** [cpl_comm_mod.o] Error 1
+bash-2.05$ more scrip
+scrip: No such file or directory
+bash-2.05$ more sc  typescript 
+bash-2.05$ script --help
+script: invalid option -- -
+usage: script [-a] [-f] [-q] [file]
+bash-2.05$ scpri     script      ps -A
+  PID TTY          TIME CMD
+    1 ?        00:00:13 init
+    2 ?        00:00:00 keventd
+    3 ?        00:00:00 ksoftirqd_CPU0
+    4 ?        00:00:00 ksoftirqd_CPU1
+    5 ?        00:00:40 kswapd
+    6 ?        00:00:00 bdflush
+    7 ?        00:00:05 kupdated
+   10 ?        00:00:00 mdrecoveryd
+   34 ?        00:00:05 kjournald
+  135 ?        00:00:00 kjournald
+  136 ?        00:00:00 kjournald
+  137 ?        00:00:02 kjournald
+  138 ?        00:00:04 kjournald
+  388 ?        00:00:00 pump
+  498 ?        00:00:07 syslog-ng
+  504 ?        00:00:00 klogd
+  524 ?        00:00:18 portmap
+  552 ?        00:00:00 rpc.statd
+  655 ?        00:00:10 ntpd
+  748 ?        00:00:00 ypbind
+  750 ?        00:00:02 ypbind
+  751 ?        00:00:00 ypbind
+  752 ?        00:00:02 ypbind
+  826 ?        00:00:00 automount
+  842 ?        00:00:00 automount
+  869 ?        00:00:00 automount
+  896 ?        00:00:00 automount
+  920 ?        00:00:01 nscd
+  924 ?        00:00:02 nscd
+  925 ?        00:00:02 nscd
+  927 ?        00:00:01 nscd
+  928 ?        00:00:01 nscd
+  929 ?        00:00:01 nscd
+  930 ?        00:00:01 nscd
+  944 ?        00:00:00 sshd
+  977 ?        00:00:00 xinetd
+ 1180 ?        00:00:01 crond
+ 1216 ?        00:00:00 atd
+ 3970 ttyS0    00:00:00 agetty
+18367 ?        00:01:52 rpciod
+18368 ?        00:00:00 lockd
+32534 ?        00:00:00 sshd
+32539 ?        00:00:00 sshd
+32544 pts/7    00:00:00 zsh
+  550 ?        00:00:00 sshd
+  553 ?        00:00:00 sshd
+  559 pts/9    00:00:00 zsh
+ 3286 ?        00:00:00 sshd
+ 3291 ?        00:00:02 sshd
+ 3298 pts/10   00:00:00 tcsh
+ 3516 ?        00:00:00 sshd
+ 3518 ?        00:00:02 sshd
+ 3526 pts/11   00:00:00 tcsh
+ 3606 pts/11   00:00:09 xemacs
+12122 ?        00:00:00 ssh-agent
+12379 ?        00:00:32 pvfsd
+19468 ?        00:00:00 sshd
+19470 ?        00:00:02 sshd
+19484 pts/6    00:00:00 tcsh
+ 9821 ?        00:00:00 ssh-agent
+ 8056 ?        00:00:00 ssh-agent
+22236 ?        00:00:00 sshd
+22241 ?        00:00:00 sshd
+22252 pts/13   00:00:00 tcsh
+22321 ?        00:00:00 sshd
+22323 ?        00:00:00 sshd
+22325 ?        00:00:00 sshd
+22327 ?        00:00:00 sshd
+22329 ?        00:00:00 sshd
+22341 pts/14   00:00:00 tcsh
+22409 ?        00:00:00 sshd
+22422 pts/15   00:00:00 tcsh
+22490 ?        00:00:
