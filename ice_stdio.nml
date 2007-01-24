@@ -1,0 +1,5 @@
+&stdio
+   dir    = "/home/steder/exe/deadtest/ice    "
+   stdin  = "ice.stdin "
+   stdout = "ice.log.060427-145059   "
+   /

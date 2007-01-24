@@ -1,0 +1,100 @@
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+
+          Model  :  
+ atm                                                                             
+            NGX  :             96
+            NGY  :             48
+  Decomposition  :              1
+  Num pes in X   :              0   (type 3 only)
+  Segment Length :              0   (type 4 only)
+  Cpl Comm Freq  :             24
+  Sim Time Proxy :      0.000000000000000     
+
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+
+          Model  :  
+ atm                                                                             
+            NGX  :             96
+            NGY  :             48
+  Decomposition  :              1
+  Num pes in X   :              0   (type 3 only)
+  Segment Length :              0   (type 4 only)
+  Cpl Comm Freq  :             24
+  Sim Time Proxy :      0.000000000000000     
+
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+
+          Model  :  
+ atm                                                                             
+            NGX  :             96
+            NGY  :             48
+  Decomposition  :             24
+  Num pes in X   :              1   (type 3 only)
+  Segment Length :              0   (type 4 only)
+  Cpl Comm Freq  :              0
+  Sim Time Proxy :      0.000000000000000     
+
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(cpl_comm_init) setting up communicators, name = atm
+ ===================================
+ ERROR: filetag inconsistentmph_processors_map.in
+ ERROR: PROCESSORS_MAP!=
+ BEGIN                                                                           
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(cpl_comm_init) setting up communicators, name = atm
+ ===================================
+ ERROR: filetag inconsistentmph_processors_map.in
+ ERROR: PROCESSORS_MAP!=
+ BEGIN                                                                           
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin((shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin((shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin((shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin((shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log((shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin
+(shr_msg_chStdOut) read atm_stdio.nml, unit 6 connected to atm.log
+(shr_msg_chStdIn) read atm_stdio.nml, unit 5 connected to atm.stdin

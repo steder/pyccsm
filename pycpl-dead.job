@@ -1,0 +1,98 @@
+#!/bin/bash
+#PBS -l nodes=2
+#PBS -l walltime=0:04:00
+#PBS -j oe 
+#PBS -N cpl-dead
+# Set Environment variables:
+#PBS -V
+###PBS -v SIDL_DLL_PATH=/home/steder/software/lib
+# set $NN to have the current number of nodes 
+export NN=`wc -l $PBS_NODEFILE | awk '{print $1}'`
+
+echo '========================================'
+
+echo 'pycpl-atm:  A 2 processor run with an dead atmosphere xatm'
+echo 'and a python coupler'
+
+# print out the list of nodes
+echo 'NODES: '
+cat $PBS_NODEFILE
+
+echo '========================================'
+
+# SETUP ENVIRONMENT VARIABLES
+export SIDL_DLL_PATH=/home/steder/software/lib
+export SIDL_DEBUG_DLOPEN=1
+
+export RUNPATH=$PBS_O_WORKDIR
+
+# run an mpirun job
+export PYTHON=/home/steder/software/bin/python2.4
+
+export CPL_EXE=$RUNPATH/xcpl
+export ATM_EXE=$RUNPATH/xatm
+export COUPLER=$RUNPATH/coupler.py
+export XATM=$RUNPATH/xatm.py
+export HELLO=$RUNPATH/hello.py
+export BCAST=$RUNPATH/bcast.py
+export INFOBUFF=$RUNPATH/infobuffer_test.py
+export DOMAIN=$RUNPATH/domain_test.py
+
+cd $RUNPATH
+
+cat $PBS_NODEFILE > mpd.hosts
+
+mpdboot --totalnum=$NN --ncpus=2 --file=mpd.hosts -r rsh
+mpdtrace -l
+
+# Turn off all the MCT import statments by UNSETTING:
+# SIDL_DEBUG_DLOPEN - debug stuff is only printed if this environment
+# variable is defined.
+echo "Unsetting SIDL_DEBUG_DLOPEN! Set this to 1 to see extra debugging info!"
+unset SIDL_DEBUG_DLOPEN
+echo $SIDL_DLL_PATH
+#ldd $SIDL_DLL_PATH/libsidl.so
+# Run either Python or Fortran only jobs on 4 processors.
+# These both work.
+#mpiexec -l -n $NPROCS $EXE
+#mpiexec -l -n $NPROCS $PYTHON $SCRIPT
+
+echo "Fortran Atmosphere & Fortran Coupler Sanity Check"
+mpiexec -l -n 1 $ATM_EXE : -n 1 $CPL_EXE
+#echo "Skipping..."
+
+echo "Simple Python(+MPI) Sanity Check"
+#mpiexec -l -n $NN $PYTHON $HELLO
+echo "Skipping..."
+
+echo "Additional Python+MPI Checks"
+#mpiexec -l -n $NN $PYTHON $BCAST
+#mpiexec -l -n $NN $PYTHON $INFOBUFF
+#mpiexec -l -n $NN $PYTHON $DOMAIN
+echo "Skipping..."
+
+echo "Python Coupler running against Python Dead Atmosphere"
+mpiexec -l -n 1 $PYTHON $COUPLER : -n 1 $PYTHON $XATM 
+echo "Skipping..."
+
+echo "xatm && python coupler"
+mpiexec -l -n 1 $ATM_EXE : -n 1 $PYTHON $COUPLER
+echo "Skipping for now!"
+
+echo "cpl && python xatm"
+mpiexec -l -n 1 $CPL_EXE : -n 1 $PYTHON $XATM
+
+
+# Python and Fortran (2 jobs each)
+#mpiexec -l -n $NN $ATM_EXE : -n $NN $PYTHON $COUPLER
+
+mpdallexit
+
+# export LATEST=$RUNPATH/latest.out
+# export NEW=$RUNPATH/$PBS_JOBNAME.o$PBS_JOBID
+# echo "LATEST=$LATEST"
+# echo "NEW=$NEW"
+# if [ -ch $LATEST ] 
+#     rm $LATEST
+# fi
+# ln -s $NEW $LATEST

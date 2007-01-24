@@ -1,0 +1,8 @@
+PROCESSORS_MAP
+BEGIN
+cpl
+atm
+ocn
+ice
+lnd
+END

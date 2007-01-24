@@ -1,0 +1,432 @@
+!===============================================================================
+! CVS: $Id: cpl_comm_mod.F90,v 1.2 2003/11/22 00:27:04 tcraig Exp $
+! CVS: $Source: /fs/cgd/csm/models/CVS.REPOS/shared/csm_share/cpl/cpl_comm_mod.F90,v $
+! CVS: $Name: ccsm3_0_rel04 $
+!===============================================================================
+!BOP ===========================================================================
+!
+! !MODULE: cpl_comm_mod -- "communicator module" defines comm groups and model ID's
+!
+! !DESCRIPTION:
+!     Sets up communicator groups and MPH component ID's (cid).
+!     Also declares and defines handy data wrt number of pe's, PID's, CID's
+!     relative to world and component communicator groups.
+!
+! !REVISION HISTORY:
+!     2001-Aug-20 - B. Kauffman - new naming convention
+!     2001-Mar-20 - T. Craig, B. Kauffman, R. Jacob - first prototype
+!
+! !INTERFACE: ------------------------------------------------------------------
+
+module cpl_comm_mod
+
+! !USES:
+
+  use cpl_kind_mod   ! kinds
+  use shr_sys_mod    ! system calls
+  use shr_mpi_mod    ! mpi layer
+
+  implicit none
+
+  private ! except
+
+! !PUBLIC TYPES:
+
+  ! none
+
+! !PUBLIC MEMBER FUNCTIONS:
+
+   public :: cpl_comm_init
+   ! msteder
+   public :: cpl_comm_init_wo_mph
+
+! !PUBLIC DATA MEMBERS:
+
+   integer(IN),public :: cpl_comm_wrld         ! = MPI_COMM_WORLD, global comm grp
+   integer(IN),public :: cpl_comm_wrld_npe     ! number of pe's in MPI_COMM_WORLD
+   integer(IN),public :: cpl_comm_wrld_pid     ! this comp pid in MPI_COMM_WORLD
+
+   integer(IN),public :: cpl_comm_comp         ! this comp communicator group
+   integer(IN),public :: cpl_comm_comp_npe     ! number of pe's in comp comm group
+   integer(IN),public :: cpl_comm_comp_pid     ! this comp's pid in comp comm group
+
+   integer(IN),public :: cpl_comm_mph_cid      ! MPH component ID, this component
+   integer(IN),public :: cpl_comm_mph_cid_atm  ! MPH component ID, atm
+   integer(IN),public :: cpl_comm_mph_cid_ice  ! MPH component ID, ice
+   integer(IN),public :: cpl_comm_mph_cid_lnd  ! MPH component ID, lnd
+   integer(IN),public :: cpl_comm_mph_cid_ocn  ! MPH component ID, ocn
+   integer(IN),public :: cpl_comm_mph_cid_cpl  ! MPH component ID, cpl
+
+   integer(IN),public :: cpl_comm_wrld_pe0     ! comm world pe0, this component
+   integer(IN),public :: cpl_comm_wrld_pe0_atm ! comm world pe0, atm
+   integer(IN),public :: cpl_comm_wrld_pe0_ice ! comm world pe0, ice
+   integer(IN),public :: cpl_comm_wrld_pe0_lnd ! comm world pe0, lnd
+   integer(IN),public :: cpl_comm_wrld_pe0_ocn ! comm world pe0, ocn
+   integer(IN),public :: cpl_comm_wrld_pe0_cpl ! comm world pe0, cpl
+
+!EOP
+
+   save
+
+   character(*),parameter :: modName = 'cpl_comm_mod'
+
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+contains
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+!===============================================================================
+!BOP ===========================================================================
+!
+! !IROUTINE: cpl_comm_init -- initialize the coupling/mpi environment.
+!
+! !DESCRIPTION:
+!    This routine calls mpi\_init, establishes coupled component communicator
+!    groups, coupled component id's, and pid's relative to world and component
+!    communicator groups.
+! 
+! !REMARKS:
+!
+! !REVISION HISTORY:
+!     2001-Mar-20 - T. Craig, B. Kauffman, R. Jacob -- first prototype
+!     2001-Dec-10 - R. Jacob -- switch arguments in cpl_mct_world_init to
+!                   to match new version
+!
+! !INTERFACE: ------------------------------------------------------------------
+
+subroutine cpl_comm_init(name,comm)
+
+! !USES:
+
+   use cpl_fields_mod      ! contains valid component name strings
+   use mph_module,only : mph_components
+   use mph_module,only : mph_global_proc_id
+   use mph_module,only : mph_local_proc_id
+   use mph_module,only : mph_total_components
+   use mph_module,only : mph_comp_id
+   use mph_module,only : mph_local_totprocs
+   use mph_module,only : mph_global_totprocs
+   use mph_module,only : mph_global_id
+   use mph_module,only : mph_comp_name
+   use mph_module,only : mph_global_world
+   use m_MCTWorld    ,only : cpl_mct_world_init   => init
+
+   implicit none
+
+! !INPUT/OUTPUT PARAMETERS:
+
+   character(*),intent(in)  :: name ! name of component name
+   integer(IN) ,intent(out) :: comm ! communicator group for component
+
+!EOP
+
+   integer(IN)      :: n    ! generic loop index
+
+   !----- formats -----
+   character(*),parameter :: subname = "(cpl_comm_init) "
+   character(*),parameter :: F00 = "('(cpl_comm_init) ',4a)"
+   character(*),parameter :: F02 = "('(cpl_comm_init) ',a,6i4)"
+
+!-------------------------------------------------------------------------------
+!
+!-------------------------------------------------------------------------------
+
+   write(6,F00) "setting up communicators, name = ",trim(name)
+
+   !--- initialize my local comm group via MPH ---
+   comm = mph_components(name1=name)
+
+   !--- query MPH for my local/global comm info, mph cid ---
+   cpl_comm_wrld     = mph_global_world
+   cpl_comm_wrld_pid = mph_global_proc_id()
+   cpl_comm_wrld_npe = mph_global_totprocs()
+   cpl_comm_wrld_pe0 = mph_global_id(name,0)
+
+   cpl_comm_comp     = comm
+   cpl_comm_mph_cid  = mph_comp_id(name)
+   cpl_comm_comp_pid = mph_local_proc_id(cpl_comm_mph_cid)
+   cpl_comm_comp_npe = mph_local_totprocs(cpl_comm_mph_cid)
+
+   call shr_mpi_commsize(cpl_comm_comp,n,subName//" MPI comm size")
+   write(6,F02) "cpl_comm_comp, size:",cpl_comm_comp,n
+
+   !--- determine mph cid's and comm_world pe0's for all components ---
+   do n=1,mph_total_components()
+      if (mph_comp_name(n) == cpl_fields_atmname ) then
+         cpl_comm_mph_cid_atm  = n
+         cpl_comm_wrld_pe0_atm = mph_global_id(cpl_fields_atmname,0)
+      elseif (mph_comp_name(n) == cpl_fields_icename ) then
+         cpl_comm_mph_cid_ice  = n
+         cpl_comm_wrld_pe0_ice = mph_global_id(cpl_fields_icename,0)
+      elseif (mph_comp_name(n) == cpl_fields_lndname ) then
+         cpl_comm_mph_cid_lnd  = n
+         cpl_comm_wrld_pe0_lnd = mph_global_id(cpl_fields_lndname,0)
+      elseif (mph_comp_name(n) == cpl_fields_ocnname ) then
+         cpl_comm_mph_cid_ocn  = n
+         cpl_comm_wrld_pe0_ocn = mph_global_id(cpl_fields_ocnname,0)
+      elseif (mph_comp_name(n) == cpl_fields_cplname ) then
+         cpl_comm_mph_cid_cpl  = n
+         cpl_comm_wrld_pe0_cpl = mph_global_id(cpl_fields_cplname,0)
+      else
+         write(6,*) subName,'mph_component_name error',n,mph_comp_name(n)
+         call shr_sys_abort(subName//'mph_component_name error')
+      endif
+   enddo
+
+   !--- initialize MCT ---
+   call cpl_mct_world_init(mph_total_components(),cpl_comm_wrld,cpl_comm_comp,cpl_comm_mph_cid)
+
+   !--- document comm groups, pe0's, mph component ids ---
+   write(6,F02) 'comm world    : comm,npe,pid   ', &
+       &  cpl_comm_wrld,cpl_comm_wrld_npe,cpl_comm_wrld_pid
+   write(6,F02) 'comm component: comm,npe,pid   ', &
+       &  cpl_comm_comp,cpl_comm_comp_npe,cpl_comm_comp_pid
+   write(6,F02) 'comm world pe0: atm,ice,lnd,ocn,cpl,me ', &
+       &  cpl_comm_wrld_pe0_atm,cpl_comm_wrld_pe0_ice,cpl_comm_wrld_pe0_lnd, &
+       &  cpl_comm_wrld_pe0_ocn,cpl_comm_wrld_pe0_cpl,cpl_comm_wrld_pe0
+   write(6,F02) 'mph cid       : atm,ice,lnd,ocn,cpl,me ', &
+       &  cpl_comm_mph_cid_atm ,cpl_comm_mph_cid_ice ,cpl_comm_mph_cid_lnd , &
+       &  cpl_comm_mph_cid_ocn ,cpl_comm_mph_cid_cpl ,cpl_comm_mph_cid
+
+end subroutine cpl_comm_init
+
+!===============================================================================
+!===============================================================================
+
+!===============================================================================
+!BOP ===========================================================================
+!
+! !IROUTINE: cpl_comm_init -- initialize the coupling/mpi environment.
+!
+! !DESCRIPTION:
+!    This routine calls mpi\_init, establishes coupled component communicator
+!    groups, coupled component id's, and pid's relative to world and component
+!    communicator groups.
+! 
+! !REMARKS:
+!
+! !REVISION HISTORY:
+!     2001-Mar-20 - T. Craig, B. Kauffman, R. Jacob -- first prototype
+!     2001-Dec-10 - R. Jacob -- switch arguments in cpl_mct_world_init to
+!                   to match new version
+!
+! !INTERFACE: ------------------------------------------------------------------
+
+subroutine cpl_comm_init_wo_mph(name,comm)
+
+! !USES:
+
+   use shr_sys_mod,only : shr_sys_flush
+   use cpl_fields_mod      ! contains valid component name strings
+   use mph_module,only : mph_components
+   use mph_module,only : mph_global_proc_id
+   use mph_module,only : mph_local_proc_id
+   use mph_module,only : mph_total_components
+   use mph_module,only : mph_comp_id
+   use mph_module,only : mph_local_totprocs
+   use mph_module,only : mph_global_totprocs
+   use mph_module,only : mph_global_id
+   use mph_module,only : mph_comp_name
+   use mph_module,only : mph_global_world
+   use m_MCTWorld    ,only : cpl_mct_world_init   => init
+
+   implicit none
+
+! MPI INCLUDE:
+#if ( ! defined HIDE_MPI )
+#include <mpif.h>
+#endif
+
+! !INPUT/OUTPUT PARAMETERS:
+
+   character(*),intent(in)  :: name ! name of component name
+   integer(IN) ,intent(out) :: comm ! communicator group for component
+   
+!EOP
+
+   integer(IN)      :: n    ! generic loop index
+   integer(IN)      :: ierr ! error flag to pass to and from MPI routines
+   integer(IN)      :: ncomponents ! number of components
+   integer(IN)      :: local_rank, local_size,world_rank,world_size ! 
+   integer(IN)      :: temp_rank, temp_size
+   integer(IN)      :: cpl_comm_root_comm
+   !----- formats -----
+   character(*),parameter :: subname = "(cpl_comm_init) "
+   character(*),parameter :: F00 = "('(cpl_comm_init) ',4a)"
+   character(*),parameter :: F02 = "('(cpl_comm_init) ',a,6i4)"
+
+!-------------------------------------------------------------------------------
+!
+!-------------------------------------------------------------------------------
+   call mpi_init(ierr)
+
+   write(6,F00) "setting up communicators, name = ",trim(name)
+   call shr_sys_flush(6)
+   !--- Initialize local comm groups using Comm Split:
+   write(6,F00) trim(name),": initializing comm groups..."
+   call shr_sys_flush(6)
+   name = trim(name)
+
+   ncomponents = 0
+   cpl_comm_mph_cid_cpl  = 1
+   cpl_comm_mph_cid_atm = 2   
+   cpl_comm_mph_cid_ocn = 3
+   cpl_comm_mph_cid_ice = 4
+   cpl_comm_mph_cid_lnd = 5
+
+   if ( name .eq. "cpl" ) then
+      cpl_comm_mph_cid  = 1
+      call MPI_COMM_SPLIT( MPI_COMM_WORLD, 0, 0, comm, ierr )
+   elseif ( name .eq. "atm" ) then
+      cpl_comm_mph_cid  = 2      
+      call MPI_COMM_SPLIT( MPI_COMM_WORLD, 1, 0, comm, ierr )
+   elseif ( name .eq. "ocn" ) then
+      cpl_comm_mph_cid  = 3
+      call MPI_COMM_SPLIT( MPI_COMM_WORLD, 2, 0, comm, ierr )
+   elseif ( name .eq. "ice" ) then
+      cpl_comm_mph_cid  = 4
+      call MPI_COMM_SPLIT( MPI_COMM_WORLD, 3, 0, comm, ierr )
+   elseif ( name .eq. "lnd" ) then   
+      cpl_comm_mph_cid  = 5
+      call MPI_COMM_SPLIT( MPI_COMM_WORLD, 4, 0, comm, ierr )
+   end if
+   write(6,F00) trim(name), ": Comm groups initialized!"
+   call shr_sys_flush(6)
+   ! Get local rank and size:
+   call MPI_COMM_RANK( comm, local_rank, ierr )
+   call MPI_COMM_SIZE( comm, local_size, ierr )
+   
+   write(6,F00) trim(name), ": Creating Root Communicator..."
+   call shr_sys_flush(6)
+   if ( local_rank .eq. 0 ) then
+      call MPI_COMM_SPLIT( MPI_COMM_WORLD, 5, 0, cpl_comm_root_comm, ierr )
+      call MPI_COMM_SIZE( cpl_comm_root_comm, ncomponents, ierr )
+   else
+      call MPI_COMM_SPLIT( MPI_COMM_WORLD, 6, 0, cpl_comm_root_comm, ierr )
+      ncomponents = 0
+   end if
+   write(6,F00) trim(name), ": Distributing Root Communicator..."
+   call shr_sys_flush(6)   
+   call MPI_BCAST( ncomponents, 1, MPI_INTEGER, 0, comm, ierr )
+   
+   if( local_rank .eq. 0 ) then
+      ! Verify cpl_comm_root_comm is okay:
+      call MPI_COMM_RANK( cpl_comm_root_comm, temp_rank, ierr )
+      call MPI_COMM_SIZE( cpl_comm_root_comm, temp_rank, ierr )
+   endif
+
+   !--- query MPH for my local/global comm info, mph cid ---
+   !cpl_comm_wrld     = mph_global_world
+   cpl_comm_wrld = MPI_COMM_WORLD   
+   !cpl_comm_wrld_pid = mph_global_proc_id()
+   call MPI_COMM_RANK( MPI_COMM_WORLD, cpl_comm_wrld_pid, ierr )
+   !cpl_comm_wrld_npe = mph_global_totprocs()
+   call MPI_COMM_SIZE( MPI_COMM_WORLD, cpl_comm_wrld_npe, ierr )
+   !cpl_comm_wrld_pe0 = mph_global_id(name,0)
+   
+   write(6,*) "ncomponents =",ncomponents
+
+   ! we've already broadcasted root_comm to all processors
+   ! so after the above MPI_COMM_SIZE call we shouldn't have
+   ! to broadcast ncomponents.
+   !call MPI_BCAST( ncomponents, 1, MPI_INTEGER, 0, comm, ierr )
+
+   write (6,*) "1 of",ncomponents,"components!" 
+   cpl_comm_comp     = comm
+   !cpl_comm_comp_pid = mph_local_proc_id(cpl_comm_mph_cid)
+   call MPI_COMM_RANK( comm, cpl_comm_comp_pid, ierr )
+   !cpl_comm_comp_npe = mph_local_totprocs(cpl_comm_mph_cid)
+   cpl_comm_comp_npe = local_size
+
+   !call shr_mpi_commsize(cpl_comm_comp,n,subName//" MPI comm size")
+   write(6,*) "rank:",local_rank
+   write(6,*) "cpl_comm_comp, size:",cpl_comm_comp,local_size
+   call shr_sys_flush(6)
+
+   !--- determine mph cid's and comm_world pe0's for all components
+   !--- Component ID's were simply hardcoded earlier when we created
+   !--- Local communicators for each component.  
+   !--- comm_world pe0's still have to be assigned.
+   write(6,*) ": setting remaining Component values..."
+   cpl_comm_wrld_pe0_cpl = 0   
+   cpl_comm_wrld_pe0_atm = 0
+   cpl_comm_wrld_pe0_ocn = 0
+   cpl_comm_wrld_pe0_ice = 0
+   cpl_comm_wrld_pe0_lnd = 0
+   cpl_comm_wrld_pe0 = 0
+   !--- If we do a global allreduce, the value left in each of these variables
+   !--- should be correct.
+   call MPI_COMM_SIZE( MPI_COMM_WORLD, world_size, ierr )
+   call MPI_COMM_RANK( MPI_COMM_WORLD, world_rank, ierr )
+   if( trim(name) .eq. "cpl" ) then
+      if ( local_rank .eq. 0 ) then
+         cpl_comm_wrld_pe0_cpl = world_rank
+         cpl_comm_wrld_pe0 = world_rank
+      end if
+   end if
+   if( trim(name) .eq. "atm" ) then
+      if ( local_rank .eq. 0 ) then
+         cpl_comm_wrld_pe0_atm = world_rank
+         cpl_comm_wrld_pe0 = world_rank
+      end if
+   end if
+   if( trim(name) .eq. "ocn" ) then
+      if ( local_rank .eq. 0 ) then
+         cpl_comm_wrld_pe0_ocn = world_rank
+         cpl_comm_wrld_pe0 = world_rank
+      end if
+   end if
+   if( trim(name) .eq. "ice" ) then
+      if ( local_rank .eq. 0 ) then
+         cpl_comm_wrld_pe0_ice = world_rank
+         cpl_comm_wrld_pe0 = world_rank
+      end if
+   end if
+   if( trim(name) .eq. "lnd" ) then
+      if ( local_rank .eq. 0 ) then
+         cpl_comm_wrld_pe0_lnd = world_rank
+         cpl_comm_wrld_pe0 = world_rank
+      end if
+   end if
+   write(6,F00) "Assigning Root Processors..."
+   call MPI_Allreduce( cpl_comm_wrld_pe0_cpl, cpl_comm_wrld_pe0_cpl, 1, MPI_INTEGER, MPI_SUM, MPI_COMM_WORLD, ierr )   
+   call MPI_Allreduce( cpl_comm_wrld_pe0_atm, cpl_comm_wrld_pe0_atm, 1, MPI_INTEGER, MPI_SUM, MPI_COMM_WORLD, ierr )   
+   call MPI_Allreduce( cpl_comm_wrld_pe0_ocn, cpl_comm_wrld_pe0_ocn, 1, MPI_INTEGER, MPI_SUM, MPI_COMM_WORLD, ierr )   
+   call MPI_Allreduce( cpl_comm_wrld_pe0_ice, cpl_comm_wrld_pe0_ice, 1, MPI_INTEGER, MPI_SUM, MPI_COMM_WORLD, ierr )   
+   call MPI_Allreduce( cpl_comm_wrld_pe0_lnd, cpl_comm_wrld_pe0_lnd, 1, MPI_INTEGER, MPI_SUM, MPI_COMM_WORLD, ierr )
+   ! Assign this to all processors of a single component
+   call MPI_Allreduce( cpl_comm_wrld_pe0, cpl_comm_wrld_pe0, 1, MPI_INTEGER, MPI_SUM, cpl_comm_comp, ierr )   
+
+   !--- initialize MCT ---
+   write(6,F00) "Initializing MCT World:"
+   call shr_sys_flush(6)
+   write(6,*) "ncomponents=",ncomponents
+   write(6,*) "cpl_comm_wrld=",cpl_comm_wrld
+   write(6,*) "cpl_comm_comp=",cpl_comm_comp
+   write(6,*) "cpl_comm_mph_cid=",cpl_comm_mph_cid
+   write(6,F00) "Getting size of cpl_comm_wrld(yes, wrld):"
+   call shr_sys_flush(6)
+   call MPI_COMM_SIZE( cpl_comm_wrld, temp_size, ierr )
+   write(6,F00) "Getting size of cpl_comm_comp:"
+   call shr_sys_flush(6)
+   call MPI_COMM_SIZE( cpl_comm_comp, temp_size, ierr )
+   write(6,F00) "Calling cpl_mct_world_init:"
+   call shr_sys_flush(6)
+   call cpl_mct_world_init(ncomponents,MPI_COMM_WORLD,comm,cpl_comm_mph_cid)
+   write(6,F00) "Initialized!"
+   call shr_sys_flush(6)
+   !--- document comm groups, pe0's, mph component ids ---
+   write(6,F02) 'comm world    : comm,npe,pid   ', &
+       &  cpl_comm_wrld,cpl_comm_wrld_npe,cpl_comm_wrld_pid
+   write(6,F02) 'comm component: comm,npe,pid   ', &
+       &  cpl_comm_comp,cpl_comm_comp_npe,cpl_comm_comp_pid
+   write(6,F02) 'comm world pe0: atm,ice,lnd,ocn,cpl,me ', &
+       &  cpl_comm_wrld_pe0_atm,cpl_comm_wrld_pe0_ice,cpl_comm_wrld_pe0_lnd, &
+       &  cpl_comm_wrld_pe0_ocn,cpl_comm_wrld_pe0_cpl,cpl_comm_wrld_pe0
+   write(6,F02) 'mph cid       : atm,ice,lnd,ocn,cpl,me ', &
+       &  cpl_comm_mph_cid_atm ,cpl_comm_mph_cid_ice ,cpl_comm_mph_cid_lnd , &
+       &  cpl_comm_mph_cid_ocn ,cpl_comm_mph_cid_cpl ,cpl_comm_mph_cid
+   call shr_sys_flush(6)
+end subroutine cpl_comm_init_wo_mph
+
+end module cpl_comm_mod
+

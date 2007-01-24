@@ -1,0 +1,18 @@
+Warnings...
+
+cpl/domain.py:72: No global (gsmap) found
+cpl/domain.py:92: No module attribute (local_comm) found
+cpl/domain.py:92: No module attribute (mph_component_id) found
+cpl/domain.py:131: Parameter (args) not used
+cpl/domain.py:196: No module attribute (component) found
+cpl/domain.py:196: No module attribute (pid0) found
+cpl/domain.py:197: No module attribute (component) found
+cpl/domain.py:197: No module attribute (pid0) found
+cpl/domain.py:200: No module attribute (component_pid) found
+cpl/domain.py:200: No module attribute (pid0) found
+cpl/domain.py:230: Parameter (enforce_area) not used
+cpl/domain.py:230: Parameter (enforce_aream) not used
+cpl/domain.py:230: Parameter (enforce_grid) not used
+cpl/domain.py:230: Parameter (exception) not used
+cpl/domain.py:230: Parameter (msg) not used
+cpl/domain.py:244: Local variable (i) not used

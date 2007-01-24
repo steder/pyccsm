@@ -1,0 +1,28 @@
+  &inparm
+  case_name     = 'deadtest HI MOM '
+  case_desc     = 'deadtest deadtest '
+  start_type    = "initial"
+  start_date    =  00010101
+  start_pfile   = 'rpointer.cpl '
+  start_bfile   = "null"
+  stop_option   = 'ndays'
+  stop_n        =  5
+  rest_option   = 'ndays'
+  rest_n        =  5
+  diag_option   = 'ndays'
+  diag_n        =  10
+  hist_option   = 'never'
+  hist_n        =  -999
+  hist_64bit    =  .false.
+  avhist_option = "never"
+  avhist_n      =  -999
+  map_a2of_fn   = "map_T31_to_gx3v5_aave_da_040122.nc"
+  map_a2os_fn   = "map_T31_to_gx3v5_bilin_da_040122.nc"
+  map_o2af_fn   = "map_gx3v5_to_T31_aave_da_040122.nc"
+  map_r2o_fn    = "map_r05_to_gx3v5_e2000r500_040209.nc"
+  orb_year      =  1990
+  flx_epbal     = 'off'
+  flx_albav     = .false.
+  info_dbug     =  2
+  bfbflag       = .false.
+  /

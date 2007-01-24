@@ -1,0 +1,5 @@
+&stdio
+   dir    = "/home/steder/pyCPL/data    "
+   stdin  = "cpl.stdin "
+   stdout = "cpl.log.051207-133405   "
+   /

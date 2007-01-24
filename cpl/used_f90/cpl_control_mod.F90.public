@@ -1,0 +1,75 @@
+   public :: cpl_control_readNList  ! read & parse namelist input
+   public :: cpl_control_init       ! initialize alarms, etc.
+   public :: cpl_control_update     ! update control flags
+   logical      ,public :: cpl_control_stopNow    ! T => stop model now
+   logical      ,public :: cpl_control_stopEOD    ! T => stop model at end of day
+   logical      ,public :: cpl_control_restNow    ! T => create restart data now
+   logical      ,public :: cpl_control_restEOD    ! T => create restart data at EOD
+   logical      ,public :: cpl_control_histNow    ! T => create history data now
+   logical      ,public :: cpl_control_histEOD    ! T => create history data at EOD
+!  logical      ,public :: cpl_control_histSave   ! T => archive history data now
+   logical      ,public :: cpl_control_hist64bit  ! T => use 64 bit netCDFfiles 
+   logical      ,public :: cpl_control_avhistNow  ! T => create history data now
+   logical      ,public :: cpl_control_avhistEOD  ! T => create history data at EOD
+   logical      ,public :: cpl_control_diagNow    ! T => print diagnostic data now
+   logical      ,public :: cpl_control_diagEOD    ! T => print diagnostic data at EOD
+   logical      ,public :: cpl_control_avDiagNow  ! T => print tavg diag data now
+   logical      ,public :: cpl_control_avDiagEOD  ! T => print tavg diag data at EOD
+   logical      ,public :: cpl_control_bfbflag    ! T => bfb with different pes
+   character(CL),public :: cpl_control_caseName   ! case name
+   character(CL),public :: cpl_control_caseDesc   ! case description
+   character(16),public :: cpl_control_restType   ! restart type: init,cont,branch
+   integer(IN)  ,public :: cpl_control_restCDate  ! restart cDate from namelist
+   integer(IN)  ,public :: cpl_control_restDate   ! restart date
+   character(CL),public :: cpl_control_restPFn    ! restart pointer file name
+   character(CL),public :: cpl_control_restBFn    ! restart branch  file name
+   logical      ,public :: cpl_control_lagOcn     ! T => lag the ocn at startup
+   logical      ,public :: cpl_control_sendAtmAlb ! T => send albedo ICs to atm
+   logical      ,public :: cpl_control_sendLndDom ! T => send lnd domain to lnd
+   logical      ,public :: cpl_control_icData_a   ! T => use IC data provided by atm
+   logical      ,public :: cpl_control_icData_i   ! T => use IC data provided by ice
+   logical      ,public :: cpl_control_icData_l   ! T => use IC data provided by lnd
+   logical      ,public :: cpl_control_icData_o   ! T => use IC data provided by ocn
+   logical      ,public :: cpl_control_icData_r   ! T => use IC data provided by roff
+   character(16),public :: cpl_control_avhistType ! tavg history file type
+   character(CL),public :: cpl_control_mapFn_a2oF ! map data file: a->o fluxes
+   character(CL),public :: cpl_control_mapFn_a2oS ! map data file: a->o states
+   character(CL),public :: cpl_control_mapFn_o2aF ! map data file: o->a fluxes
+   character(CL),public :: cpl_control_mapFn_o2aS ! map data file: o->a states
+   character(CL),public :: cpl_control_mapFn_r2o  ! map data file: r->o runoff
+   logical      ,public :: cpl_control_fluxAlbAv  ! T => NO diurnal cycle in albedos
+   character(16),public :: cpl_control_fluxEPbal  ! selects E,P,R adjustment technique
+   real(R8)     ,public :: cpl_control_fluxEPfac  ! E,P,R adjust factor recv'd from ocn
+   integer(IN)  ,public :: cpl_control_fluxAShift ! albedo calc time-shift (seconds)
+   real(R8)     ,public :: cpl_control_orbEccen   ! eccen of earth orbit (unitless)
+   real(R8)     ,public :: cpl_control_orbObliqr  ! earth's obliquity (rad)
+   real(R8)     ,public :: cpl_control_orbLambm0  ! mean lon perihelion @ vernal eq (rad)
+   real(R8)     ,public :: cpl_control_orbMvelpp  ! moving vernal equinox longitude
+   logical      ,public :: cpl_control_dead_a     ! T => atm component is dead comp
+   logical      ,public :: cpl_control_dead_i     ! T => ice component is dead comp
+   logical      ,public :: cpl_control_dead_l     ! T => lnd component is dead comp
+   logical      ,public :: cpl_control_dead_o     ! T => ocn component is dead comp
+   logical      ,public :: cpl_control_dead_ao    ! T => atm and/or ocn are dead comp
+   integer(IN)  ,public :: cpl_control_nCpl_a     ! atm/cpl communications per day
+   integer(IN)  ,public :: cpl_control_nCpl_i     ! ice/cpl communications per day
+   integer(IN)  ,public :: cpl_control_nCpl_l     ! lnd/cpl communications per day
+   integer(IN)  ,public :: cpl_control_nCpl_o     ! ocn/cpl communications per day
+   integer(IN)  ,public :: cpl_control_nCpl_r     ! rof/cpl communications per day
+   integer(IN)  ,public :: cpl_control_cDate_a    ! atm coded date
+   integer(IN)  ,public :: cpl_control_cDate_i    ! ice coded date
+   integer(IN)  ,public :: cpl_control_cDate_l    ! lnd coded date
+   integer(IN)  ,public :: cpl_control_cDate_o    ! ocn coded date
+   integer(IN)  ,public :: cpl_control_sec_a      ! atm secs on date
+   integer(IN)  ,public :: cpl_control_sec_i      ! ice secs on date
+   integer(IN)  ,public :: cpl_control_sec_l      ! lnd secs on date
+   integer(IN)  ,public :: cpl_control_sec_o      ! ocn secs on date
+   integer(IN)  ,public :: cpl_control_decomp_a   ! atm decomposition type
+   integer(IN)  ,public :: cpl_control_decomp_l   ! lnd decomposition type
+   integer(IN)  ,public :: cpl_control_decomp_o   ! ocn decomposition type
+   integer(IN)  ,public :: cpl_control_decomp_i   ! ice decomposition type
+   integer(IN)  ,public :: cpl_control_decomp_r   ! rof decomposition type
+   integer(IN)  ,public :: cpl_control_infoDBug=1 ! user specified dbug level
+   logical      ,public :: cpl_control_infoBcheck ! T => do bit-check now
+   ! make local/private control variables available via public variables
+  !modifies public cpl_control_mod data
+   !OUTPUT: modifies public cpl_control_mod data

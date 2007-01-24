@@ -1,0 +1,19 @@
+Completed Modules:
+
+cpl_comm_mod.F90 -> comm.py
+cpl_kind_mod.F90 -> (unnecessary)
+cpl_const_mod.F90 -> const.py
+shr_const_mod.F90 -> shr/const.py
+cpl_domain_mod.F90 -> domain.py
+cpl_fields_mod.F90 -> fields.py
+
+Uncompleted Modules:
+
+bundle.py
+
+Necessary Modules (In dependency order):
+
+
+Unnecessary Modules:
+
+cpl_control_mod.F90

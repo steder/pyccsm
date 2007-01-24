@@ -1,0 +1,24 @@
+The majority of the code is included in the "cpl" subdirectory.  "cpl" is also a python package, so imports are done like "from cpl import bundle", etc.
+
+Within the cpl directory there are simply a number of Python files that correspond to each of the fortran files in the original CPL6 library.  For instance, cpl_comm_mod.F90 corresponds to comm.py, and cpl_domain_mod.F90 corresponds to domain.py.  
+
+The fortran files (depending on whether they are being used) are usually set aside into the directories unused_f90 and used_f90 just to clean up the directory listings.  
+
+The toplevel "pyCPL" directory contains a bunch of other stuff:
+*.pgi files are all processor group inputs, they can be safely ignored.  They are useful if you get to the point that you want to try to run pyCPL.
+
+There is an included executable named "xatm" which is a version of the CCSM dead atmosphere compiled with portland group 5.2 for mpich1_ethernet.  This executable should run fine on Jazz.  
+
+To facilitate running models and the coupler there are some files:  *.stdin and *.nml(namelist) in this directory.  These files can be modified to change working directories for the models and things like that.
+
+The main python file in the top level is (of course) "main.py".  It is
+destined for greatness (i.e.: it is where the coupler would actually be
+implemented) but currently it doesn't do much at all.
+
+There are a few other python files that I've used for testing MPI startup
+issues, like "hi.py" and "hello.py".  A very useful script called "genmph.py"
+is included that is needed for the proper installation of pyCPL onto a new
+machine.  "genmph.py", although it sounds like it's related to MPH, actually
+builds creates a simple xml reference file needed by Babel.  Other python
+files that were useful during the translation of fortran90 to python code are
+sitting in the utilities directory.
