@@ -1,12 +1,6 @@
-#Start page for the installation instructions for PyMCT.  
+PyMCT Start Page
 
 = Introduction =
 
 PyMCT consists of a suite of software packages necessary to build and run a Python Coupler like PyCCSM.
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
