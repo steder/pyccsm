@@ -4,7 +4,59 @@ Here we're concerned with simply setting up environment variables to make the in
 
 == Setting Environment Variables ==
 
+If you're unfamiliar with setting shell environment variables we can provide a little information on how to make these modifications yourself.  However, first we need to identify which shell you are using.
 
+=== Which shell am I running? ===
+A simple way to check which shell you're running is to simply type:
+{{{
+echo $SHELL
+}}}
+at the prompt.
+
+The result will likely be either of these:
+{{{
+/bin/bash
+/bin/csh
+}}}
+
+=== BASH ===
+To setup environment variables on a system using BASH you will want to edit a hidden file like:
+{{{
+/home/user/.bash_profile
+/home/user/.bashrc
+}}}
+
+In Bash setting an environment variable looks like:
+{{{
+VARIABLE = value
+export VARIABLE
+}}}
+
+For instance
+{{{
+PATH=/usr/bin:/bin
+export PATH
+}}}
+
+=== CSHELL ===
+To setup environment variables on a system using CSHELL you will want to edit a hidden file like:
+{{{
+/home/user/.cshrc
+}}}
+
+In CShell setting an environment variable looks like:
+{{{
+setenv VARIABLE "value"
+}}}
+
+For instance:
+{{{
+setenv PATH "/bin:/sbin:/usr/bin:/usr/sbin"
+}}}
+
+=== Other Systems ===
+
+There are many different shells available and it's very difficult to cover every possible system here.  We strongly recommend that you contact a system administrator for your system and take a look at the documentation for your shell.  You only really need to know how to set environment variables.  Once you have that information we can proceed.
 
 == Variables to set ==
 
