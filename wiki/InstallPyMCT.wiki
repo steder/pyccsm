@@ -105,3 +105,44 @@ Assuming FFLAGS, FCFLAGS, and F90FLAGS are set in our environment our final conf
 {{{
 -bash-2.05b$ ./configure --enable-sharedlibs=gcc --enable-f90
 }}}
+
+= Stage 1 =
+Here we're concerned with simply setting up environment variables to make the installation of PyMCT straightfoward.  Take some time and research what these values should be for your system.  
+
+== Variables to set ==
+
+PYMCT_ROOT
+
+F90_COMPILER_ROOT       
+MPI_COMPILER_ROOT  
+MPIHEADER                            
+MPILIBS                                                                                                                                
+NON_MPI_F77                                          
+NON_MPI_F90                        
+MPI_HOME
+                                                             
+FFLAGS                                   
+FCFLAGS                                               
+F90FLAGS                                                                                                                                
+FC                                                                         
+F77                                                                        
+F90
+
+BABEL
+                                                   
+PATH                                     
+LD_LIBRARY_PATH                                                                 
+LD_LOAD_LIBRARY                    
+INCLUDE_PATH              
+SIDL_DLL_PATH                                               
+SIDL_DEBUG_DLOPEN                                                             
+                                              
+PYTHONPATH                                                                       
+PY_VERSION=2.4.1                                                                   
+PY_CONFIG:=--prefix=$(PYMCT_ROOT) --enable-shared --enable-unicode=ucs4 --with-thr\
+eads --with-universal-newlines --with-pymalloc --with-cxx=g++                                                                                          
+PYTHON:=$(PYMCT_ROOT)/bin/python                                                   
+                                                                                                                                                         
+CHASM_VERSION:=1.3                                                                      
+CHASM_FORTRAN_VENDOR:=Absoft #Options: (Absoft,Alpha,Cray,GNU,IBMXL,Intel,Intel_7,\
+Lahey,MIPSpro,NAG,SUNWspro)  
