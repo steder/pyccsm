@@ -26,7 +26,13 @@ FFLAGS=-f -N15
 FCFLAGS=-YEXT_NAMES=LCS -YEXT_SFX=_                                               
 F90FLAGS=-YEXT_NAMES=LCS -YEXT_SFX=_    
 }}}
-Set these environment variables in your shell before continuing with the configuration.
+Set these environment variables in your shell before continuing with the configuration if you can. 
+
+Alternatives: 
+1) you can set these flags everywhere you invoke Absoft
+2) you can build alternative libraries for Absoft and other compilers.
+
+We think most installations with more than one Fortran compiler will prefer to set the flags globally so as to avoid these problems.
 
 === Configuration ===
 
