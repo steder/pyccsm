@@ -30,3 +30,7 @@ The following components are necessary to build and use MCT and PyMCT
 There are a number of Python bindings to MPI out there, but the only one that completely meets the requirements of our package is our own solution, MaroonMPI.  Depending on your application you may have reasonable success with other bindings.
 
 === NetCDF ===
+
+= Configuration and Installation =
+
+Please see our InstallPyMCT page.
