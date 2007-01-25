@@ -57,10 +57,11 @@ So if you perchance have to use the Absoft F90 compiler, or some other compiler 
 The consequences of not doing this are building specialized versions of nearly every system library for each compiler which uses a different convention.  Generally this is far more work then simply changing the compilers default conventions to match the other compilers on your system.
 
 *Flags for the Absoft Fortran Compilers*
+{{{
 FFLAGS=-f -N15                                                                    
 FCFLAGS=-YEXT_NAMES=LCS -YEXT_SFX=_                                               
 F90FLAGS=-YEXT_NAMES=LCS -YEXT_SFX=_    
-
+}}}
 Set these environment variables in your shell before continuing with the configuration.
 
 === Configuration ===
