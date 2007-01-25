@@ -1,6 +1,11 @@
-PyMCT Start Page
+= PyMCT Start Page =
 
-= Introduction =
+== Introduction ==
 
 PyMCT consists of a suite of software packages necessary to build and run a Python Coupler like PyCCSM.
 
+= Architecture =
+
+== System Overview ==
+
+== Component Overview ==
