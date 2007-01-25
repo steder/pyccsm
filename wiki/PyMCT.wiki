@@ -1,4 +1,4 @@
-# PyMCT Start Page
+#summary PyMCT Start Page
 = PyMCT Start Page =
 
 == Introduction ==
