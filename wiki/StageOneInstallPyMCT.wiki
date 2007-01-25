@@ -110,6 +110,8 @@ PYMCT_ROOT is used to determine where all the necessary PyMCT packages and modul
 PYMCT_ROOT=$HOME/pymct/
 }}}
 
+=== Fortran Compilers and MPI Compilers ===
+
 This next group of variables are used to setup the compilers that will be used to build the regular Fortran version of MCT.
 {{{
 F90_COMPILER_ROOT
