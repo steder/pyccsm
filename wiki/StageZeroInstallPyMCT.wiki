@@ -12,9 +12,9 @@ For compatibility reasons with other Fortran compilers it is strongly encouraged
 
 || Compiler || Convention || Example ||
 || G77 || All Symbols are lowercase with an appended underscore || subroutine ComputeFlux -> `computeflux_`||
-|| Absoft || Defaults to Mixed Case, No Underscore || ComputeFlux -> `ComputeFlux` ||
-|| PGI || Same conventions as G77 || ComputeFlux -> `computeflux_` ||
-|| Intel || Same conventions as G77 || ComputeFlux -> `computeflux_` ||
+|| Absoft || Defaults to Mixed Case, No Underscore || subroutine ComputeFlux -> `ComputeFlux` ||
+|| PGI || Same conventions as G77 || subroutine ComputeFlux -> `computeflux_` ||
+|| Intel || Same conventions as G77 || subroutine ComputeFlux -> `computeflux_` ||
 
 So if you perchance have to use the Absoft F90 compiler, or some other compiler with differing linkage conventions it's important that you look into compiler options to modify those linkage conventions to make them compatible with other compilers.  
 
