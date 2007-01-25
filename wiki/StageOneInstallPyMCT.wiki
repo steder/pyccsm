@@ -201,21 +201,21 @@ NON_MPI_F90=/soft/com/packages/absoft-9.0/opt/absoft/bin/f90
 
 === Babel and PyMCT library settings ===
 {{{
-BABEL
-PATH
-LD_LIBRARY_PATH
-LD_LOAD_LIBRARY
-INCLUDE_PATH
-SIDL_DLL_PATH
-SIDL_DEBUG_DLOPEN
+BABEL=babel-0.11.2
+PATH=$PYMCT_ROOT/bin:$PYMCT_ROOT/$BABEL/bin:$PATH
+LD_LIBRARY_PATH=$PYMCT_ROOT/lib:$PYMCT_ROOT/$BABEL/lib:$MPILIBS:$LD_LIBRARY_PATH
+LD_LOAD_LIBRARY=$LD_LIBRARY_PATH:$LD_LOAD_LIBRARY
+INCLUDE_PATH=$PYMCT_ROOT/include/python2.4/:$PYMCT_ROOT/include/:$PYMCT_ROOT
+/$BABEL/include:$MPIHEADER:$INCLUDE_PATH
+SIDL_DLL_PATH=$PYMCT_ROOT/lib/
+SIDL_DEBUG_DLOPEN=1
 }}}
 
 === Python Settings ===
 {{{
-PYTHONPATH
-PY_VERSION=2.4.1
-PY_CONFIG:=--prefix=$(PYMCT_ROOT) --enable-shared --enable-unicode=ucs4 --with-threads --with-universal-newlines --with-pymalloc --with-cxx=g++
 PYTHON:=$(PYMCT_ROOT)/bin/python
-CHASM_VERSION:=1.3
-CHASM_FORTRAN_VENDOR:=Absoft #Options: (Absoft,Alpha,Cray,GNU,IBMXL,Intel,Intel_7,Lahey,MIPSpro,NAG,SUNWspro)  
+PYTHONPATH:=${PYMCT_ROOT}/lib/python2.4/site-packages/:${PYMCT_ROOT}/${BABEL}/lib/python2.4/site-packages:./
+PY_VERSION=2.4.1
+PY_CONFIG:=--prefix=$(PYMCT_ROOT) --enable-shared --enable-unicode=ucs4 --with-thre
+ads --with-universal-newlines --with-pymalloc --with-cxx=g++
 }}}
