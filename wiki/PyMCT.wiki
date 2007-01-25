@@ -1,3 +1,4 @@
+# PyMCT Start Page
 = PyMCT Start Page =
 
 == Introduction ==
@@ -33,4 +34,4 @@ There are a number of Python bindings to MPI out there, but the only one that co
 
 = Configuration and Installation =
 
-Please see our InstallPyMCT page.
+Please see our [InstallPyMCT] page.
