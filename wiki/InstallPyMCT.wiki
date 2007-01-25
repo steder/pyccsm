@@ -30,15 +30,18 @@ This stage assumes that all the requirements are out of the way and deals with i
   * Python Array Modules
   * Python MPI Module
 [StageTwoInstallPyMCT]
-=== Stage 3 ===
-This stage builds the Babel Compiler.  This is a large and sophisticated application.  
+=== Stage 3 === 
+This stage builds and installs the Fortran version of MCT.
 [StageThreeInstallPyMCT]
 === Stage 4 ===
-Here we use Babel to update the bindings.  We then modify makefiles to fit our system and compile and install the MCT Server and Client libraries.
+This stage builds the Babel Compiler.  This is a large and sophisticated application.  
 [StageFourInstallPyMCT]
 === Stage 5 ===
-This is our final stage which consists of just installing some useful utility packages.
+Here we use Babel to update the bindings.  We then modify makefiles to fit our system and compile and install the MCT Server and Client libraries.
 [StageFiveInstallPyMCT]
+=== Stage 6 ===
+This is our final stage which consists of just installing some useful utility packages.
+[StageSixInstallPyMCT]
 
 = Stage 1 =
 Here we're concerned with simply setting up environment variables to make the installation of PyMCT straightfoward.  Take some time and research what these values should be for your system.  
