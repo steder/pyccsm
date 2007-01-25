@@ -15,5 +15,18 @@ PyMCT wraps the Fortran 90 MCT library and makes it available to Python Programm
 
 The following components are necessary to build and use MCT and PyMCT
 
-MCT:
+=== MCT ===
+  * Fortran 90 Compiler
   * MPI (we use MPICH2)
+
+=== Babel ===
+  * C, Java, and Fortran compilers ( Portland Group Fortran is NOT supported! <email them!> )
+  * Python Interpreter
+  * Chasm
+  * Numpy or Numeric Python array packages
+  
+=== Python MPI ===
+
+There are a number of Python bindings to MPI out there, but the only one that completely meets the requirements of our package is our own solution, MaroonMPI.  Depending on your application you may have reasonable success with other bindings.
+
+=== NetCDF ===
