@@ -110,7 +110,21 @@ PYMCT_ROOT is used to determine where all the necessary PyMCT packages and modul
 PYMCT_ROOT=$HOME/pymct/
 }}}
 
-=== Fortran Compilers and MPI Compilers ===
+=== Compiler Flags ===
+{{{
+FFLAGS
+FCFLAGS
+F90FLAGS
+}}}
+
+=== Default compilers ===
+{{{
+FC
+F77
+F90
+}}}
+
+=== Compilers  and Paths for MCT ===
 
 This next group of variables are used to setup the compilers that will be used to build the regular Fortran version of MCT.
 {{{
@@ -120,6 +134,8 @@ MPIHEADER
 MPILIBS
 MPI_HOME
 }}}
+
+=== Compiler paths for Babel ===
 These variables are used to specify the Fortran compilers that should be used by Babel.  We don't need MPI libraries and includes at this point so we can use the original compilers directly.  
 
 You can find out the names of these compilers by typing 
@@ -142,15 +158,7 @@ NON_MPI_F77=/soft/com/packages/absoft-9.0/opt/absoft/bin/f77
 NON_MPI_F90=/soft/com/packages/absoft-9.0/opt/absoft/bin/f90
 }}}
 
-{{{
-FFLAGS
-FCFLAGS
-F90FLAGS
-FC
-F77
-F90
-}}}
-
+=== Babel and PyMCT library settings ===
 {{{
 BABEL
 PATH
@@ -161,6 +169,7 @@ SIDL_DLL_PATH
 SIDL_DEBUG_DLOPEN
 }}}
 
+=== Python Settings ===
 {{{
 PYTHONPATH
 PY_VERSION=2.4.1
