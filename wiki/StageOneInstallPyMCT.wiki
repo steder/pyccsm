@@ -1,0 +1,117 @@
+#summary Stage 1 installation instructions for PyMCT
+= Stage 1 =
+Here we're concerned with simply setting up environment variables to make the installation of PyMCT straightfoward.  Take some time and research what these values should be for your system.  
+
+== Setting Environment Variables ==
+
+
+
+== Variables to set ==
+
+{{{
+PYMCT_ROOT
+}}}
+{{{
+F90_COMPILER_ROOT
+MPI_COMPILER_ROOT
+MPIHEADER
+MPILIBS
+NON_MPI_F77
+NON_MPI_F90
+MPI_HOME
+}}}
+
+{{{
+FFLAGS
+FCFLAGS
+F90FLAGS
+FC
+F77
+F90
+}}}
+
+{{{
+BABEL
+PATH
+LD_LIBRARY_PATH
+LD_LOAD_LIBRARY
+INCLUDE_PATH
+SIDL_DLL_PATH
+SIDL_DEBUG_DLOPEN
+}}}
+
+{{{
+PYTHONPATH
+PY_VERSION
+PY_CONFIG
+PYTHON
+CHASM_VERSION
+CHASM_FORTRAN_VENDOR
+}}}
+
+== Example Values ==
+
+=== Installation directory ===
+
+PYMCT_ROOT is used to determine where all the necessary PyMCT packages and modules will be installed.  Possible directories might be "/usr/local" for a system-wide installation or a "/home/user" to install PyMCT for use by a single person.  Let's use the following to install PyMCT for a single user.
+{{{
+PYMCT_ROOT=$HOME/pymct/
+}}}
+
+This next group of variables are used to setup the compilers that will be used to build the regular Fortran version of MCT.
+{{{
+F90_COMPILER_ROOT
+MPI_COMPILER_ROOT
+MPIHEADER
+MPILIBS
+MPI_HOME
+}}}
+These variables are used to specify the Fortran compilers that should be used by Babel.  We don't need MPI libraries and includes at this point so we can use the original compilers directly.  
+
+You can find out the names of these compilers by typing 
+{{{
+-bash-2.05b$ mpif77 -show
+f77 -f -N15 -f -B108 -I/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/include -L/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/lib -Wl,-rpath -Wl,/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/lib -lmpich -lpthread -lpvfs -lrt
+-bash-2.05b$ which f77
+/soft/com/packages/absoft-9.0/opt/absoft/bin/f77
+}}}
+And:
+{{{
+-bash-2.05b$ mpif90 -show
+f90 -YEXT_NAMES=LCS -YEXT_SFX=_ -YEXT_NAMES=LCS -YEXT_SFX=_ -I/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/include -p/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/include -L/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/lib -lmpichf90 -X -rpath -X /soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/lib -lmpichf90 -lmpich -lpthread -lpvfs -lrt
+-bash-2.05b$ which f90
+/soft/com/packages/absoft-9.0/opt/absoft/bin/f90
+}}}
+The output of _which_ gives you the values for these two variables.  Go ahead and set them in your environment.
+{{{
+NON_MPI_F77=/soft/com/packages/absoft-9.0/opt/absoft/bin/f77
+NON_MPI_F90=/soft/com/packages/absoft-9.0/opt/absoft/bin/f90
+}}}
+
+{{{
+FFLAGS
+FCFLAGS
+F90FLAGS
+FC
+F77
+F90
+}}}
+
+{{{
+BABEL
+PATH
+LD_LIBRARY_PATH
+LD_LOAD_LIBRARY
+INCLUDE_PATH
+SIDL_DLL_PATH
+SIDL_DEBUG_DLOPEN
+}}}
+
+{{{
+PYTHONPATH
+PY_VERSION=2.4.1
+PY_CONFIG:=--prefix=$(PYMCT_ROOT) --enable-shared --enable-unicode=ucs4 --with-threads --with-universal-newlines --with-pymalloc --with-cxx=g++
+PYTHON:=$(PYMCT_ROOT)/bin/python
+CHASM_VERSION:=1.3
+CHASM_FORTRAN_VENDOR:=Absoft #Options: (Absoft,Alpha,Cray,GNU,IBMXL,Intel,Intel_7,Lahey,MIPSpro,NAG,SUNWspro)  
+}}}
