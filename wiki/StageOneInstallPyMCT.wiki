@@ -213,9 +213,9 @@ SIDL_DEBUG_DLOPEN=1
 
 === Python Settings ===
 {{{
-PYTHON:=$(PYMCT_ROOT)/bin/python
-PYTHONPATH:=${PYMCT_ROOT}/lib/python2.4/site-packages/:${PYMCT_ROOT}/${BABEL}/lib/python2.4/site-packages:./
+PYTHON=$PYMCT_ROOT/bin/python
+PYTHONPATH=$PYMCT_ROOT/lib/python2.4/site-packages/:$PYMCT_ROOT/$BABEL/lib/python2.4/site-packages:./
 PY_VERSION=2.4.1
-PY_CONFIG:=--prefix=$(PYMCT_ROOT) --enable-shared --enable-unicode=ucs4 --with-thre
+PY_CONFIG:=--prefix=$PYMCT_ROOT --enable-shared --enable-unicode=ucs4 --with-thre
 ads --with-universal-newlines --with-pymalloc --with-cxx=g++
 }}}
