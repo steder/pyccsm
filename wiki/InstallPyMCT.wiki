@@ -109,6 +109,10 @@ Assuming FFLAGS, FCFLAGS, and F90FLAGS are set in our environment our final conf
 = Stage 1 =
 Here we're concerned with simply setting up environment variables to make the installation of PyMCT straightfoward.  Take some time and research what these values should be for your system.  
 
+== Setting Environment Variables ==
+
+
+
 == Variables to set ==
 
 {{{
@@ -185,6 +189,7 @@ f90 -YEXT_NAMES=LCS -YEXT_SFX=_ -YEXT_NAMES=LCS -YEXT_SFX=_ -I/soft/apps/package
 -bash-2.05b$ which f90
 /soft/com/packages/absoft-9.0/opt/absoft/bin/f90
 }}}
+The output of _which_ gives you the values for these two variables.  Go ahead and set them in your environment.
 {{{
 NON_MPI_F77=/soft/com/packages/absoft-9.0/opt/absoft/bin/f77
 NON_MPI_F90=/soft/com/packages/absoft-9.0/opt/absoft/bin/f90
