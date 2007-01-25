@@ -1,13 +1,23 @@
-#summary One-sentence summary of this page.
+# Installation instructions for PyMCT
 
 = Introduction =
 
-Add your content here.
+This goal of this document is to walk through the steps to configure, build, and install PyMCT and setup an environment for writing and running MCT programs in Python.
 
+= Requirements =
 
-= Details =
+== Software Prerequisites ==
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+=== Compilers and Languages ===
+
+We expect you to have:
+  * C Compiler
+  * Fortran 90 Compiler (Portland Group Fortran is incompatible <link>!)
+  * Java JDK
+  * Python 2.4 or later
+
+=== Libraries ===
+
+  * MPI (We prefer MPICH2, but others should work)
+  * MPI with Dynamic Library support enabled (--enable-sharedlibs configuration option)
+  * NetCDF
