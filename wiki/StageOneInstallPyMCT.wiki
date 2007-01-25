@@ -111,28 +111,63 @@ PYMCT_ROOT=$HOME/pymct/
 }}}
 
 === Compiler Flags ===
+These values are talked about in more detail on the StageZeroInstallPyMCT page.  Hopefully they are already set for you.  You may be interested in adding to them to specify a certain optimization level, but assuming they are set you can leave them alone.
+
+If they are not set, you need to look into the documentation for your compiler, or speak with your system admin, to determine what linking conventions are in use for your Fortran compiler.  Some compilers will require you to make changes, many will simply work _out of the box_ without setting these flags.
+
+The Absoft compiler is a notable compiler that has very different linking conventions then most other Fortran compilers.  These flags change the default behavior of Absoft Fortran to match that of a Gnu, Intel, and Portland Group compilers.
 {{{
-FFLAGS
-FCFLAGS
-F90FLAGS
+FFLAGS=-f -N15
+FCFLAGS=-YEXT_NAMES=LCS -YEXT_SFX=_
+F90FLAGS=-YEXT_NAMES=LCS -YEXT_SFX=_
 }}}
 
 === Default compilers ===
+
+These are shortcuts to the compilers we'll be using most.
+
 {{{
-FC
-F77
-F90
+FC=mpif90
+F77=mpif77
+F90=mpif90
 }}}
 
 === Compilers  and Paths for MCT ===
 
-This next group of variables are used to setup the compilers that will be used to build the regular Fortran version of MCT.
+This next group of variables are used to setup the compiler paths needed by MCT.
+F90_COMPILER_ROOT can be found by running the following command:
 {{{
-F90_COMPILER_ROOT
-MPI_COMPILER_ROOT
-MPIHEADER
-MPILIBS
-MPI_HOME
+-bash-2.05b$ mpif90 -show
+f90 -YEXT_NAMES=LCS -YEXT_SFX=_ -YEXT_NAMES=LCS -YEXT_SFX=_ -I/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/include -p/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/include -L/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/lib -lmpichf90 -X -rpath -X /soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/lib -lmpichf90 -lmpich -lpthread -lpvfs -lrt
+}}}
+You'll notice that f90 is the compiler itself.  You might see _gfortran_, _ifcbin_, _pgf90_ or some other compiler at the start of that line and if that's the case you'll need to modify the next command to match.
+{{{-bash-2.05b$ which f90
+/soft/com/packages/absoft-9.0/opt/absoft/bin/f90
+}}}
+Now we can set F90_COMPILER_ROOT by dropping /bin/f90 from the path:
+{{{
+F90_COMPILER_ROOT=/soft/com/packages/absoft-9.0/opt/absoft/
+}}}
+
+MPI_COMPILER_ROOT can be determined a little more simply:
+{{{
+-bash-2.05b$ which mpif90
+/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/bin/mpif90
+}}}
+Now we can set MPI_COMPILER_ROOT by dropping the /bin/mpif90 from the path:
+{{{
+MPI_COMPILER_ROOT=/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/
+}}}
+
+MPIHEADER and MPILIBS are set from MPI_COMPILER_ROOT.
+
+So, these variables in our example are set to:
+{{{
+F90_COMPILER_ROOT=/soft/com/packages/absoft-9.0/opt/absoft/
+MPI_COMPILER_ROOT=/soft/apps/packages/mpich2-sock-1.0.4p1-absoft-9.0-1-shared/
+MPIHEADER=$MPI_COMPILER_ROOT/include/mpif.h
+MPILIBS=$MPI_COMPILER_ROOT/lib
+MPI_HOME=$MPI_COMPILER_ROOT
 }}}
 
 === Compiler paths for Babel ===
