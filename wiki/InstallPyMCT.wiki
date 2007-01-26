@@ -1,7 +1,7 @@
 #summary Overview installation instructions for PyMCT
 
-|| || [PyMCT]  || ||
-|| || [StageZeroInstallPyMCT] || [StageOneInstallPyMCT] ||
+|| [PyMCT]  ||
+|| [StageZeroInstallPyMCT] || [StageOneInstallPyMCT] ||
 
 = Introduction =
 This goal of this document is to walk through the steps to configure, build, and install PyMCT and setup an environment for writing and running MCT programs in Python.
@@ -163,5 +163,5 @@ CHASM_VERSION:=1.3
 CHASM_FORTRAN_VENDOR:=Absoft #Options: (Absoft,Alpha,Cray,GNU,IBMXL,Intel,Intel_7,Lahey,MIPSpro,NAG,SUNWspro)  
 }}}
 
-|| || [PyMCT]  || ||
-|| || [StageZeroInstallPyMCT] || [StageOneInstallPyMCT] ||
+|| [PyMCT]  ||
+|| [StageZeroInstallPyMCT] || [StageOneInstallPyMCT] ||
