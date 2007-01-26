@@ -1,8 +1,51 @@
-#summary Installation of the PyMCT server library
+#summary Installation of the PyMCT Python Client library
 
 || [InstallPyMCT] || [MaroonInstall] ||
 
-= PyMCT Server Installation =
+= PyMCT Python Client Installation =
+
+{{{
+pymctclean: $(TIMESTAMPS)/pymctclean
+$(TIMESTAMPS)/pymctclean:
+        @echo "*** Cleaning PYMCT directory"
+        cd MCT/babel/mctserver-0.11.0 && make clean
+        ${PYMCT_ROOT}/${BABEL}/bin/babel -sf90 MCT/babel/MCT.sidl -o MCT/babel/m
+ctserver-0.11.0
+        @echo "*** Cleaned PYMCT directory"
+        touch $(TIMESTAMPS)/pymctclean       
+}}}
+
+{{{
+pymctbuild: $(TIMESTAMPS)/pymctbuild
+$(TIMESTAMPS)/pymctbuild:
+        @echo "*** Building PYMCT"
+        cd MCT/babel/mctserver-0.11.0 && make 
+        cd MCT/babel/mctclient-python-0.11.0 && \
+        CC=mpicc LDSHARED=mpicc LDFLAGS="-shared" $(PYTHON) setup.py build_ext \
+        --include-dirs=$(PYMCT_ROOT)/include \
+    --include-dirs=$(PYMCT_ROOT)/${BABEL}/include \
+    --include-dirs=$(PYMCT_ROOT)/${BABEL}/include/python2.4 \
+    --include-dirs=$(PYMCT_ROOT)/${BABEL}/include/python2.4/babel \
+    --include-dirs=$(PYMCT_ROOT)/include/python2.4 \
+    --include-dirs=$(PYMCT_ROOT)/include/python2.4/Numeric \
+    --include-dirs=$(PYMCT_ROOT)/include/python2.4/babel \
+    --library-dirs=$(PYMCT_ROOT)/lib \
+    --library-dirs=$(PYMCT_ROOT)/${BABEL}/lib \
+    --libraries=sidlstub_f90 build --force
+
+        @echo "*** Built PYMCT"
+        touch $(TIMESTAMPS)/pymctbuild  
+}}}
+
+{{{
+pymctinstall: $(TIMESTAMPS)/pymctinstall
+$(TIMESTAMPS)/pymctinstall:
+        @echo "*** Installing PYMCT"
+        cd MCT/babel/mctserver-0.11.0 && make install
+        cd MCT/babel/mctclient-python-0.11.0 && $(PYTHON) setup.py install 
+        @echo "*** Installed PYMCT"
+        touch $(TIMESTAMPS)/pymctinstall   
+}}}
 
 == Step 1:  ==
 
