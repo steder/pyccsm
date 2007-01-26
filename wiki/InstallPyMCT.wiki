@@ -30,28 +30,31 @@ Initial Configuration of the PyMCT environment [StageOneInstallPyMCT]
 
 === MCT === 
 This stage builds and installs the Fortran version of MCT.
-[MCTInstallPyMCT]
+[ModelCouplingToolkitInstall]
 
 == Stage 3 ==
 === Babel Prerequisites ===
 This stage adds the basic modules required by Babel and PyMCT.  These are straightforward installations.
   * Chasm
   * Python Array Modules
-[PrerequisitesInstallPyMCT]
+[ChasmInstall]
+[NumpyInstall]
 
 === Babel ===
 This stage builds the Babel Compiler.  This is a large and sophisticated application.  
-[BabelInstallPyMCT]
+[BabelInstall]
 
 === PyMCT ===
 Here we use Babel to update the bindings.  We then modify makefiles to fit our system and compile and install the MCT Server and Client libraries.  
-[ServerInstallPyMCT]
-[ClientInstallPyMCT]
+[ServerInstall]
+[ClientInstall]
 
 === Utilities ===
 This is our final stage which consists of just installing some useful utility packages.
-[UtilitiesInstallPyMCT]
-[MaroonInstallPyMCT]
+[UtilitiesInstall]
+[MaroonInstall]
 
 || [PyMCT]  ||
 || [StageZeroInstallPyMCT] || [StageOneInstallPyMCT] ||
+
+
