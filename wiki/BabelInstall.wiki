@@ -1,6 +1,6 @@
 #summary Installation of the Multi-language Interoperability package, Babel.
 
-|| [InstallPyMCT] || [BabelInstall] ||
+|| [InstallPyMCT] || [ServerInstall] ||
 
 = Babel Installation =
 
@@ -56,7 +56,7 @@ $ make
 $ make install
 }}}
 
-|| [InstallPyMCT] || [BabelInstall] ||
+|| [InstallPyMCT] || [ServerInstall] ||
 
 
 
