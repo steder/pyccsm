@@ -1,5 +1,4 @@
-#summary Stage 1 installation instructions for PyMCT
-
+#summary Configuration of environment variables
 || [StageZeroInstallPyMCT] ||  [InstallPyMCT] || [StageTwoInstallPyMCT] ||
 
 = Stage 1 =
