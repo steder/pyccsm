@@ -1,5 +1,5 @@
 #summary Configuration of environment variables
-|| [StageZeroInstallPyMCT] ||  [InstallPyMCT] || [StageTwoInstallPyMCT] ||
+|| [StageZeroInstallPyMCT] ||  [InstallPyMCT] || [ModelCouplingToolkitInstall] ||
 
 = Stage 1 =
 
@@ -251,4 +251,4 @@ The Babel installation requires that the CLASSPATH environment variable be set t
 CLASSPATH=.
 }}}
 
-|| [StageZeroInstallPyMCT] ||  [InstallPyMCT] || [StageTwoInstallPyMCT] ||
+|| [StageZeroInstallPyMCT] ||  [InstallPyMCT] || [ModelCouplingToolkitInstall] ||
