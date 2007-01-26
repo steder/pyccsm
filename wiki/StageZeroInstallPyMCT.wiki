@@ -1,5 +1,7 @@
 #summary Stage 0 installation instructions for PyMCT
 
+|| [InstallPyMCT] || [StageOneInstallPyMCT] ||
+
 = Stage 0 =
 
 == MPICH ==
@@ -75,3 +77,5 @@ Assuming FFLAGS, FCFLAGS, and F90FLAGS are set in our environment our final conf
 {{{
 -bash-2.05b$ ./configure --enable-sharedlibs=gcc --enable-f90
 }}}
+
+|| [InstallPyMCT] || [StageOneInstallPyMCT] ||
