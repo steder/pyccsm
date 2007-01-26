@@ -50,7 +50,9 @@ Now we're going to run configure with options and parameters we setup in Stage 1
 
 
 {{{
-$ ./configure --prefix=$PYMCT_ROOT --enable-babel   FC=$FC     F90=$F90    MPIF90=$F90    BABELROOT=$PYMCT_ROOT/$BABEL/     PYTHON=$PYTHON       COMPILER_ROOT=$F90_COMPILER_ROOT     FCFLAGS=$F90FLAGS      F90FLAGS=$F90FLAGS
+$ ./configure --prefix=$PYMCT_ROOT --enable-babel   FC=$FC     F90=$F90    MPIF90=$F90 
+    BABELROOT=$PYMCT_ROOT/$BABEL/     PYTHON=$PYTHON       COMPILER_ROOT=$F90_COMPILER_ROOT
+    FCFLAGS=$F90FLAGS      F90FLAGS=$F90FLAGS
 }}}
 
 === make ===
