@@ -30,3 +30,29 @@ configure*    doc/       Makefile          mkinstalldirs*  protex/
 configure.ac  examples/  Makefile.conf.in  mpeu/           README
 }}}
 
+== Step 2:  Configuration and Installation == 
+
+Now, assuming we've followed the instructions in [StageOneInstallPyMCT] and properly configured our environment variables we should be all set to install MCT.
+
+=== ./configure ===
+
+This is where we need to be to execute the following commands:
+{{{
+$ pwd
+/home/steder/Sandbox/MCT
+$ ls
+aclocal.m4    COPYRIGHT  install-sh*       mct/            mpi-serial/
+configure*    doc/       Makefile          mkinstalldirs*  protex/
+configure.ac  examples/  Makefile.conf.in  mpeu/           README
+}}}
+
+Now we're going to run configure with options and parameters we setup in Stage 1.
+
+
+{{{
+$ ./configure --prefix=$PYMCT_ROOT --enable-babel   FC=$FC     F90=$F90    MPIF90=$F90    BABELROOT=$PYMCT_ROOT/$BABEL/     PYTHON=$PYTHON       COMPILER_ROOT=$F90_COMPILER_ROOT     FCFLAGS=$F90FLAGS      F90FLAGS=$F90FLAGS
+}}}
+
+=== make ===
+
+=== make install ===
