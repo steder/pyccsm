@@ -1,4 +1,4 @@
-#summary Stage 0 installation instructions for PyMCT
+#summary MPICH and Fortran Compiler configuration and installation
 
 || [InstallPyMCT] || [StageOneInstallPyMCT] ||
 
