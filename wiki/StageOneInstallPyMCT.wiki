@@ -97,10 +97,7 @@ SIDL_DEBUG_DLOPEN
 
 {{{
 PYTHONPATH
-PY_VERSION
-PY_CONFIG
 PYTHON
-CHASM_VERSION
 CHASM_FORTRAN_VENDOR
 }}}
 
@@ -235,5 +232,16 @@ PYTHONPATH needs to be updated to include the site-packages that will be install
 PYTHON=$PYMCT_ROOT/bin/python
 PYTHONPATH=$PYMCT_ROOT/lib/python2.4/site-packages/:$PYMCT_ROOT/$BABEL/lib/python2.4/site-packages:./
 }}}
+
+=== Chasm Settings ===
+
+CHASM_FORTRAN_VENDOR needs to be set to one of the following options:
+|| Absoft || Alpha || Cray || GNU || IBMXL || Intel || Intel_7 || Lahey || MIPSpro || NAG || SUNWspro ||
+
+Note that Portland Group Fortran is not on that list.  This is because the vendor has refused to make their array interface public.
+{{{
+CHASM_FORTRAN_VENDOR=Absoft
+}}}
+
 
 || [StageZeroInstallPyMCT] ||  [InstallPyMCT] || [StageTwoInstallPyMCT] ||
