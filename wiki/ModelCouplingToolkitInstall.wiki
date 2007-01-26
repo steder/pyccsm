@@ -12,7 +12,7 @@
 You can download the most recent version of the Model Coupling Toolkit directly from 
 [http://www-unix.mcs.anl.gov/mct/]
 
-You only need the source so the following link [ftp://ftp.mcs.anl.gov/pub/acpi/MCT/MCTnodata.tar.gz MCT source only [.tar.gz]. Only 0.3MB] is all you need.
+You only need the source so the following link [ftp://ftp.mcs.anl.gov/pub/acpi/MCT/MCTnodata.tar.gz MCT source only (.tar.gz). Only 0.3MB] is all you need.
 
 === Unpacking ===
 Let's create a directory to hold our work.  In this case, we're using a subdirectory named Sandbox in our user directory.
