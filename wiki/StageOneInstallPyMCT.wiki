@@ -200,6 +200,18 @@ NON_MPI_F90=/soft/com/packages/absoft-9.0/opt/absoft/bin/f90
 }}}
 
 === Babel and PyMCT library settings ===
+First we setup BABEL to "babel"+"-"+"version number".  This should be the same as the directory name for the babel distribution.  This variable is used to set a number of other variables and is necessary for properly locating and running Babel.
+
+PATH is set to include the executables installed in later stages and the babel executables.  We want to simply prepend our $PYMCT_ROOT/bin and $PYMCT_ROOT/$BABEL/bin directories to the $PATH variable.  Depending on your shell there may be better ways to do this.  See AppendingToEnvironmentVariables for more details.
+
+LD_LIBRARY_PATH and LD_LOAD_LIBRARY are system paths referenced whenever you start an application and are used to look up dynamic libraries at runtime.  If these are not set properly you'll see a number of linking errors when attempting to use PyMCT.  Basically the directories containing the PyMCT client and server libraries need to be included in both LD_LIBRARY_PATH and LD_LOAD_LIBRARY.
+
+INCLUDE_PATH is modified primarily to include Python and Babel header files.
+
+SIDL_DLL_PATH must point to the directory where the PyMCT server library is installed.  In this case we'll install it to $PYMCT_ROOT/lib/.  The reasoning here is similar to that for LD_LIBRARY_PATH and LD_LOAD_LIBRARY.
+
+SIDL_DEBUG_DLOPEN can be set equal to either 0 or 1.  If it's set to 1 we enable some extra debugging statements whenever PyMCT is imported.  Once everything is properly installed and working this could be set to 0, but until then leave it 1.
+
 {{{
 BABEL=babel-0.11.2
 PATH=$PYMCT_ROOT/bin:$PYMCT_ROOT/$BABEL/bin:$PATH
