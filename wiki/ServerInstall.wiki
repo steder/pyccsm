@@ -1,0 +1,24 @@
+#summary Installation of the PyMCT server library
+
+|| [InstallPyMCT] || [ClientInstall] ||
+
+= PyMCT Server Installation =
+
+== Step 1:  ==
+
+{{{
+
+}}}
+
+== Step 2:   ==
+
+{{{
+}}}
+
+== Step 3:   ==
+
+{{{
+
+}}}
+
+|| [InstallPyMCT] || [ClientInstall] ||
