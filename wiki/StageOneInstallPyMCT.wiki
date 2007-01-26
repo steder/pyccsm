@@ -243,5 +243,12 @@ Note that Portland Group Fortran is not on that list.  This is because the vendo
 CHASM_FORTRAN_VENDOR=Absoft
 }}}
 
+=== Java Settings ===
+
+The Babel installation requires that the CLASSPATH environment variable be set to ".".
+
+{{{
+CLASSPATH=.
+}}}
 
 || [StageZeroInstallPyMCT] ||  [InstallPyMCT] || [StageTwoInstallPyMCT] ||
