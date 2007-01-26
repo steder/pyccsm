@@ -233,4 +233,4 @@ PYTHON=$PYMCT_ROOT/bin/python
 PYTHONPATH=$PYMCT_ROOT/lib/python2.4/site-packages/:$PYMCT_ROOT/$BABEL/lib/python2.4/site-packages:./
 }}}
 
-|| StageZeroInstallPyMCT || InstallPyMCT || StageTwoInstallPyMCT ||
+|| [StageZeroInstallPyMCT] ||  [InstallPyMCT] || [StageTwoInstallPyMCT] ||
