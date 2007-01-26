@@ -32,7 +32,7 @@ configure*    doc/       Makefile          mkinstalldirs*  protex/
 configure.ac  examples/  Makefile.conf.in  mpeu/           README
 }}}
 
-== Step 2:  Configuration and Installation == 
+== Step 2:  Configuration and Installation ==
 
 Now, assuming we've followed the instructions in [StageOneInstallPyMCT] and properly configured our environment variables we should be all set to install MCT.
 
