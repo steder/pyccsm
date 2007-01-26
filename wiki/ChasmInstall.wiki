@@ -35,7 +35,7 @@ configuration/  contrib/      include/  LICENSE   src/         xml/
 == Step 2:  Configuring Chasm ==
 
 {{{
-$ ./configure
+$ ./configure --prefix=$(PYMCT_ROOT) --with-F90=$F90 --with-F90-vendor=$CHASM_FORTRAN_VENDOR 
 }}}
 
 == Step 3:  Building and Installing ==
