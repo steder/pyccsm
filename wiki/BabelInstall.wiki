@@ -68,7 +68,7 @@ output from babel-config --version-full.
 touch timestamps/babelconfig
 }}}
 
-
+If Java is disabled you should still be fine.  It is not necessary to use the Java bindings for PyMCT (of course).
 
 == Step 3:  Building and Installing ==
 
@@ -78,7 +78,6 @@ $ make install
 }}}
 
 || [InstallPyMCT] || [ServerInstall] ||
-
 
 
 
