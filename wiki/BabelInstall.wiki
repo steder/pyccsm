@@ -44,7 +44,28 @@ $ ./configure --prefix=$PYMCT_ROOT/$BABEL    PYTHON=$PYTHON      CHASMPREFIX=$PY
 
 Configuration takes a while.  When it completes successfully you'll be greeted with the following:
 {{{
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating m4/Makefile
+config.status: creating bin/Makefile
+config.status: creating config/Makefile
+config.status: creating java/Makefile
+config.status: creating sidl/Makefile
+config.status: creating sidlx/Makefile
+config.status: creating sidl/babel_internal.h
+config.status: sidl/babel_internal.h is unchanged
 
+          Fortran90 enabled.
+          Python enabled.
+          Fortran77 enabled.
+          C++ enabled.
+          Java support disabled against request
+            (no jvm.dll/libjvm.so/libjvm.a found!)
+
+When reporting issues to babel-bugs@cca-forum.org, please include the
+output from babel-config --version-full.
+*** Configured BABEL
+touch timestamps/babelconfig
 }}}
 
 
