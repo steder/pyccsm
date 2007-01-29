@@ -251,4 +251,100 @@ The Babel installation requires that the CLASSPATH environment variable be set t
 CLASSPATH=.
 }}}
 
+= Lonestar (TACC) Specific Settings =
+
+Lonestar uses CSH as its default shell.
+
+You aren't supposed to modify _.cshrc_, instead you're supposed to create and modify a file named _.cshrc_user_.  SO:
+
+{{{
+% pwd
+/home/utexas/ig/steder
+% touch .cshrc_user
+% emacs .cshrc_user
+}}}
+
+Contents of _.cshrc_user_
+{{{
+# PYMCT_ROOT
+
+setenv PYMCT_ROOT "$HOME/pymct"
+
+# F90_COMPILER_ROOT
+
+setenv F90_COMPILER_ROOT "/opt/intel/compiler9.1/fc/"
+
+# MPI_COMPILER_ROOT
+
+setenv MPI_COMPILER_ROOT "/opt/MPI/intel9/mvapich-gen2/0.9.8/"
+
+# MPIHEADER
+
+setenv MPIHEADER "$MPI_COMPILER_ROOT/include/mpif.h"
+
+# MPILIBS
+
+setenv MPILIBS "$MPI_COMPILER_ROOT/lib"
+
+# MPI_HOME
+setenv MPI_HOME "$MPI_COMPILER_ROOT"
+
+# NON_MPI_F77
+setenv NON_MPI_F77 "/opt/intel/compiler9.1//fc/bin/ifort"
+# NON_MPI_F90
+setenv NON_MPI_F90 "/opt/intel/compiler9.1//fc/bin/ifort"
+
+# FFLAGS
+# FCFLAGS
+# F90FLAGS
+
+# FC
+# F77
+# F90
+setenv FC "mpif90"
+setenv F77 "mpif77"
+setenv F90 "mpif90"
+
+# PYVERSION
+setenv PYVERSION "python2.5"
+
+# PYTHON
+setenv PYTHON "$PYMCT_ROOT/bin/python"
+
+# PYTHONPATH
+setenv PYTHONPATH "$PYMCT_ROOT/lib/$PYVERSION/site-packages/:$PYMCT_ROOT/$BABEL/lib
+/$PYVERSION/site-packages/:./"
+
+# CHASM_FORTRAN_VENDOR
+setenv CHASM_FORTRAN_VENDOR "Intel"
+
+# JAVA - CLASSPATH
+setenv CLASSPATH "."
+
+# BABEL
+setenv BABEL "babel-1.0.2"
+
+# PATH
+setenv PATH "$PYMCT_ROOT/bin:$PYMCT_ROOT/$BABEL/bin:$PATH"
+
+# LD_LIBRARY_PATH
+setenv LD_LIBRARY_PATH "$PYMCT_ROOT/lib:$PYMCT_ROOT/$BABEL/lib:$MPILIBS:$LD_LIBRARY
+_PATH"
+
+# LD_LOAD_LIBRARY
+setenv LD_LOAD_LIBRARY "$LD_LIBRARY_PATH:$LD_LOAD_LIBRARY"
+
+# INCLUDE_PATH
+setenv INCLUDE_PATH "$PYMCT_ROOT/include/$PYVERSION/:$PYMCT_ROOT/include/:$PYMCT_RO
+OT/$BABEL/include:$MPIHEADER:$INCLUDE_PATH"
+
+# SIDL_DLL_PATH
+setenv SIDL_DLL_PATH "$PYMCT_ROOT/lib/"
+
+# SIDL_DEBUG_DLOPEN
+setenv SIDL_DEBUG_DLOPEN "1"
+}}}
+
 || [StageZeroInstallPyMCT] ||  [InstallPyMCT] || [ModelCouplingToolkitInstall] ||
+
+
