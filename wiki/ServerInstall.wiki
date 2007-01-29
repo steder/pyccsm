@@ -4,64 +4,76 @@
 
 = PyMCT Server Installation =
 
+== Obtaining the PyMCT Babel Bindings ==
+
+You will have to download the Babel cross-language bindings for MCT from the [http://www-unix.mcs.anl.gov/mct/ MCT Website].  Here's a direct link to the [ftp://ftp.mcs.anl.gov/pub/acpi/MCT/babel.tar.gz bindings tarball].
+
+Once you have the sources downloaded, place them in your _Sandbox_ directory OR _wherever you placed your MCT *source*_.  For example:
+
 {{{
-pymctclean: $(TIMESTAMPS)/pymctclean
-$(TIMESTAMPS)/pymctclean:
-        @echo "*** Cleaning PYMCT directory"
-        cd MCT/babel/mctserver-0.11.0 && make clean
-        ${PYMCT_ROOT}/${BABEL}/bin/babel -sf90 MCT/babel/MCT.sidl -o MCT/babel/m
-ctserver-0.11.0
-        @echo "*** Cleaned PYMCT directory"
-        touch $(TIMESTAMPS)/pymctclean       
+$ pwd
+/home/steder/Sandbox
+$ ls
+babel.tar.gz  MCT/  MCTnodata.tar.gz
+}}}
+
+Now go ahead and decompress the babel.tar.gz file and move it into the MCT subdirectory:
+
+{{{
+$ ls
+babel.tar.gz  MCT/  MCTnodata.tar.gz
+$ tar -zxf babel.tar.gz 
+$ ls 
+babel/  babel.tar.gz  MCT/  MCTnodata.tar.gz
+$ mv babel MCT/
+$ ls
+babel.tar.gz  MCT/  MCTnodata.tar.gz
+$ cd MCT
+$ ls
+aclocal.m4  configure.ac  examples/    Makefile.conf.in  mpeu/        README
+babel/      COPYRIGHT     install-sh*  mct/              mpi-serial/
+configure*  doc/          Makefile     mkinstalldirs*    protex/
+$ cd babel/
+$ ls
+example-c++/     genscl.py  Makefile        mctserver/  README
+example-python/  impls/     mctclient-c++/  MCT.sidl
+}}}
+
+== Configuring ==
+
+From this directory you can regenerate the babel bindings with your specific version of Babel by running the following command:
+
+{{{
+$PYMCT_ROOT/$BABEL/bin/babel -sf90 MCT.sidl -o mctserver/
+}}}
+
+This should take a few minutes to finish processing.
+
+== Editing the Makefiles ==
+
+Space reserved.
+
+== Building the PyMCT Server Library ==
+
+{{{
+$ pwd 
+/home/steder/Sandbox/MCT/babel
+$ ls
+example-c++/     genscl.py  Makefile        mctserver/  README
+example-python/  impls/     mctclient-c++/  MCT.sidl
+$ cd mctserver/
+$ make
 }}}
 
 {{{
-pymctbuild: $(TIMESTAMPS)/pymctbuild
-$(TIMESTAMPS)/pymctbuild:
-        @echo "*** Building PYMCT"
-        cd MCT/babel/mctserver-0.11.0 && make 
-        cd MCT/babel/mctclient-python-0.11.0 && \
-        CC=mpicc LDSHARED=mpicc LDFLAGS="-shared" $(PYTHON) setup.py build_ext \
-        --include-dirs=$(PYMCT_ROOT)/include \
-    --include-dirs=$(PYMCT_ROOT)/${BABEL}/include \
-    --include-dirs=$(PYMCT_ROOT)/${BABEL}/include/python2.4 \
-    --include-dirs=$(PYMCT_ROOT)/${BABEL}/include/python2.4/babel \
-    --include-dirs=$(PYMCT_ROOT)/include/python2.4 \
-    --include-dirs=$(PYMCT_ROOT)/include/python2.4/Numeric \
-    --include-dirs=$(PYMCT_ROOT)/include/python2.4/babel \
-    --library-dirs=$(PYMCT_ROOT)/lib \
-    --library-dirs=$(PYMCT_ROOT)/${BABEL}/lib \
-    --libraries=sidlstub_f90 build --force
-
-        @echo "*** Built PYMCT"
-        touch $(TIMESTAMPS)/pymctbuild  
+$ make install
 }}}
-
+OR all that really has to be done to complete the installation is copy this library to the appropriate place:
 {{{
-pymctinstall: $(TIMESTAMPS)/pymctinstall
-$(TIMESTAMPS)/pymctinstall:
-        @echo "*** Installing PYMCT"
-        cd MCT/babel/mctserver-0.11.0 && make install
-        cd MCT/babel/mctclient-python-0.11.0 && $(PYTHON) setup.py install 
-        @echo "*** Installed PYMCT"
-        touch $(TIMESTAMPS)/pymctinstall   
-}}}
-
-== Step 1:  ==
-
-{{{
-
-}}}
-
-== Step 2:   ==
-
-{{{
-}}}
-
-== Step 3:   ==
-
-{{{
-
+$ cp libmctserver.so $PYMCT_ROOT/lib/
 }}}
 
 || [InstallPyMCT] || [ClientInstall] ||
+
+
+
