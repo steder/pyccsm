@@ -6,6 +6,16 @@
 
 == Configuring ==
 
+First of all you need to be in the _babel_ directory we created in the PyMCT Server step.
+
+{{{
+$ pwd 
+/home/steder/Sandbox/MCT/babel
+$ ls
+example-c++/     genscl.py  Makefile        mctserver/  README
+example-python/  impls/     mctclient-c++/  MCT.sidl
+}}}
+
 From this directory you can regenerate the babel bindings with your specific version of Babel by running the following command:
 
 {{{
@@ -43,23 +53,6 @@ $ CC=mpicc LDSHARED=mpicc LDFLAGS="-shared" $PYTHON setup.py build_ext \
 And to install the module:
 {{{
 $ $PYTHON setup.py install 
-}}}
-
-== Step 1:  ==
-
-{{{
-
-}}}
-
-== Step 2:   ==
-
-{{{
-}}}
-
-== Step 3:   ==
-
-{{{
-
 }}}
 
 || [InstallPyMCT] || [MaroonInstall] ||
