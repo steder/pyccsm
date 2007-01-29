@@ -1,0 +1,67 @@
+#summary Step by step example build of a full CCSM case.
+
+= Introduction =
+
+== Creating a case ==
+
+First attempt:
+{{{
+-bash-2.05b$ ./create_newcase -case vanilla -mach jazz -rez T31_gx3v5 -compset B
+unknown input, invoke create_newcase with no arguments for usage
+}}}
+Changed _rez_ to _res_
+
+Second attempt:
+{{{
+-bash-2.05b$ ./create_newcase -case vanilla -mach jazz -compset B -res T31_gx3v5
+Successfully added env_mach.jazz to /home/steder/ccsm3_0/scripts/vanilla
+Successfully created new case root directory /home/steder/ccsm3_0/scripts/vanilla
+}}}
+
+Okay, time to configure and build:
+{{{
+-bash-2.05b$ ls
+ccsm_utils/      create_test*  dead/       deadtest3/  pyccsm_dead/  vanilla/
+create_newcase*  data/         deadtest2/  pyccsm/     README*       xdeadtest/
+-bash-2.05b$ 
+-bash-2.05b$ cd vanilla
+-bash-2.05b$ ls
+configure*  env_conf  env_mach.jazz*  env.readme*  env_run  SourceMods/
+-bash-2.05b$ 
+}}}
+
+== Configure ==
+
+{{{
+-bash-2.05b$ ls
+configure*  env_conf  env_mach.jazz*  env.readme*  env_run  SourceMods/
+-bash-2.05b$ ./configure -mach jazz
+-------------------------------------------------------------------------
+ Generating resolved setup namelist-prestage and build scripts
+ and installing build scripts for libraries  
+    See directory /home/steder/ccsm3_0/scripts/vanilla/Buildexe/ 
+    See directory /home/steder/ccsm3_0/scripts/vanilla/Buildnml_Prestage/ 
+    See directory /home/steder/ccsm3_0/scripts/vanilla/Buildlib/ 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Generating resolved build script, batch run script 
+   See /home/steder/ccsm3_0/scripts/vanilla/vanilla.jazz.build
+   See /home/steder/ccsm3_0/scripts/vanilla/vanilla.jazz.run
+-------------------------------------------------------------------------
+no long term archiving script (vanilla.jazz.l_archive) will be created for this machine
+*************************************************************************
+    Successfully configured the model for machine jazz
+*************************************************************************
+}}}
+
+== Build ==
+
+Command:
+{{{
+-bash-2.05b$ ./vanilla.jazz.build 
+}}}
+
+Output:
+{{{
+
+}}}
