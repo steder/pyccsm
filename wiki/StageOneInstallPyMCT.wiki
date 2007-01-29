@@ -307,7 +307,6 @@ setenv F90 "mpif90"
 
 # PYVERSION
 setenv PYVERSION "python2.5"
-
 # PYTHON
 setenv PYTHON "$PYMCT_ROOT/bin/python"
 
@@ -325,24 +324,25 @@ setenv CLASSPATH "."
 setenv BABEL "babel-1.0.2"
 
 # PATH
-setenv PATH "$PYMCT_ROOT/bin:$PYMCT_ROOT/$BABEL/bin:$PATH"
+setenv PATH "$PYMCT_ROOT/bin:$PYMCT_ROOT/$BABEL/bin:${PATH}"
 
 # LD_LIBRARY_PATH
-setenv LD_LIBRARY_PATH "$PYMCT_ROOT/lib:$PYMCT_ROOT/$BABEL/lib:$MPILIBS:$LD_LIBRARY
-_PATH"
+setenv LD_LIBRARY_PATH ${PYMCT_ROOT}/lib:${PYMCT_ROOT}/${BABEL}/lib:${MPILIBS}:${LD
+_LIBRARY_PATH}
 
 # LD_LOAD_LIBRARY
-setenv LD_LOAD_LIBRARY "$LD_LIBRARY_PATH:$LD_LOAD_LIBRARY"
+setenv LD_LOAD_LIBRARY "${LD_LIBRARY_PATH}"
 
 # INCLUDE_PATH
-setenv INCLUDE_PATH "$PYMCT_ROOT/include/$PYVERSION/:$PYMCT_ROOT/include/:$PYMCT_RO
-OT/$BABEL/include:$MPIHEADER:$INCLUDE_PATH"
+setenv INCLUDE_PATH "${PYMCT_ROOT}/include/${PYVERSION}/:${PYMCT_ROOT}/include/:${P
+YMCT_ROOT}/${BABEL}/include:${MPIHEADER}"
 
 # SIDL_DLL_PATH
-setenv SIDL_DLL_PATH "$PYMCT_ROOT/lib/"
+setenv SIDL_DLL_PATH "${PYMCT_ROOT}/lib/"
 
 # SIDL_DEBUG_DLOPEN
 setenv SIDL_DEBUG_DLOPEN "1"
+
 }}}
 
 || [StageZeroInstallPyMCT] ||  [InstallPyMCT] || [ModelCouplingToolkitInstall] ||
