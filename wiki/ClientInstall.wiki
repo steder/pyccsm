@@ -30,6 +30,10 @@ Space reserved.
 
 == Building the PyMCT Server Library ==
 
+There's really a single command to run to build the client libraries.  However, it is a fairly long and complex command.  The only thing that you have to be careful off in the following commands is that you will need to replace python2.4 with the appropriate pythonX.Y major and minor version numbers for the version you are using.  This means that Python 2.5 users will substitude python2.5 for python2.4 in the following.
+
+It may be helpful to define a simple variable in your environment, perhaps called PY_VERSION that you can use in place of _python2.4_ or _python2.5_ in the commands below.
+
 {{{
 $ pwd 
 /home/steder/Sandbox/MCT/babel
