@@ -19,7 +19,7 @@ babel-1.0.2.tar.gz  babel.tar.gz  MCT  MCTnodata.tar.gz  Python-2.5.tar.bz2
      --with-cxx=g++
 }}}
 
-= Build and Install = 
+= Build and Install =
 
 {{{
 $ make
