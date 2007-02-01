@@ -96,4 +96,13 @@ $ make install
 
 After this you should see quite a few lines of output as all the files we just built are copied into  $PYMCT_ROOT.
 
+== Lonestar ==
+
+Configuring MCT on lonestar is a little simpler as you shouldn't need to pass any flags to the Intel compiler.  Configure looks like this:
+
+{{{
+$ ./configure --prefix=$PYMCT_ROOT --enable-babel   FC=$FC     F90=$F90    MPIF90=$F90 
+    BABELROOT=$PYMCT_ROOT/$BABEL/     PYTHON=$PYTHON       COMPILER_ROOT=$F90_COMPILER_ROOT
+}}}
+
 || [StageOneInstallPyMCT] || [InstallPyMCT] ||
