@@ -310,6 +310,9 @@ setenv PYVERSION "python2.5"
 # PYTHON
 setenv PYTHON "$PYMCT_ROOT/bin/python"
 
+# BABEL
+setenv BABEL "babel-1.0.2"
+
 # PYTHONPATH
 setenv PYTHONPATH "$PYMCT_ROOT/lib/$PYVERSION/site-packages/:$PYMCT_ROOT/$BABEL/lib
 /$PYVERSION/site-packages/:./"
@@ -319,9 +322,6 @@ setenv CHASM_FORTRAN_VENDOR "Intel"
 
 # JAVA - CLASSPATH
 setenv CLASSPATH "."
-
-# BABEL
-setenv BABEL "babel-1.0.2"
 
 # PATH
 setenv PATH "$PYMCT_ROOT/bin:$PYMCT_ROOT/$BABEL/bin:${PATH}"
@@ -346,5 +346,4 @@ setenv SIDL_DEBUG_DLOPEN "1"
 }}}
 
 || [StageZeroInstallPyMCT] ||  [InstallPyMCT] || [ModelCouplingToolkitInstall] ||
-
 
