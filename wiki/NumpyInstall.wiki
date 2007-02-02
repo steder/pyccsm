@@ -46,7 +46,24 @@ LICENSE.txt     PKG-INFO     setup.py*
 $ $PYTHON setup.py install
 }}}
 
+== Step 2: Building and Installing Numpy on Lonestar ==
+
+Edit site.cfg in the numpy directory to point to BLAS and LAPACK on your system.
+
+{{{
+lslogin1% more site.cfg
+[atlas]
+library_dirs = /opt/apps/gotoblas/gotoblas-1.02
+atlas_libs = goto
+}}}
+
+You should then be able to proceed with the build normally:
+{{{
+$ $PYTHON setup.py install
+}}}
+
 || [InstallPyMCT] || [BabelInstall] ||
+
 
 
 
