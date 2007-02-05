@@ -20,7 +20,7 @@ The fundamental package needed for scientific computing with Python is called Nu
 
 Numeric users should find the transition relatively easy (although not without some effort).  There is a module (numpy.oldnumeric.alter_code1) that can make most of the necessary changes to your Python code that used Numeric to work with NumPy's Numeric compatibility module. 
 
-== Step 1:  Obtaining the Numpy source ==
+== Step 1a:  Obtaining the Numpy source ==
 
 You can download Numpy from the above site.  Here's a direct link to their SourceForge project [http://sourceforge.net/projects/numpy/ page]  Please download the most recent version.
 
@@ -40,13 +40,34 @@ DEV_README.txt  numpy/       scipy_compatibility  THANKS.txt
 LICENSE.txt     PKG-INFO     setup.py*
 }}}
 
-== Step 2:  Building  and Installing Numpy ==
+== Step 1b:  Obtaining the Numeric source ==
+
+You can also download the Numeric source from [http://numpy.sf.net/ the Numpy Site].  You should download the most recent version, 24.X+.
+
+Assuming you download the package to our Sandbox directory:
+{{{
+lslogin1% pwd
+/san/hpc/A-ig2/steder/Sandbox
+lslogin1% ls
+babel-1.0.2         chasm                 MCTnodata.tar.gz        numpy-1.0.1         Python-2.5.tgz
+babel-1.0.2.tar.gz  chasm_1.4.RC1.tar.gz  numpy-1.0.1.tar.gz
+babel.tar.gz        MCT                   Numeric-24.2.tar.gz     Python-2.5
+lslogin1% tar -zxf Numeric-24.2.tar.gz 
+cd Numeric-2lslogin1% 
+lslogin1% cd Numeric-24.2
+lslogin1% ls
+changes.txt   DEVELOPERS  Legal.htm     makedist.bat  Misc      README      setup.py
+customize.py  Include     Lib           makedist.sh   Packages  RPM.README  Src
+Demo          INSTALL     makeclean.sh  MANIFEST      PKG-INFO  setup.cfg   Test
+}}}
+
+== Step 2a:  Building  and Installing Numpy ==
 
 {{{
 $ $PYTHON setup.py install
 }}}
 
-== Step 2: Building and Installing Numpy on Lonestar ==
+== Step 2a: Building and Installing Numpy on Lonestar ==
 
 Edit site.cfg in the numpy directory to point to BLAS and LAPACK on your system.
 
@@ -62,8 +83,13 @@ You should then be able to proceed with the build normally:
 $ $PYTHON setup.py install
 }}}
 
-|| [InstallPyMCT] || [BabelInstall] ||
+== Step 2b: Building and Installing Numeric ==
 
+{{{
+$ $PYTHON setup.py install
+}}}
+
+|| [InstallPyMCT] || [BabelInstall] ||
 
 
 
