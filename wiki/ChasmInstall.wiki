@@ -34,9 +34,17 @@ configuration/  contrib/      include/  LICENSE   src/         xml/
 
 == Step 2:  Configuring Chasm ==
 
+=== General ===
 {{{
-$ ./configure --prefix=$PYMCT_ROOT --with-F90=$F90 --with-F90-vendor=$CHASM_FORTRAN_VENDOR 
+$ ./configure --prefix=$PYMCT_ROOT --with-F90=$F90 --with-F90-vendor=$CHASM_FORTRAN_VENDOR
 }}}
+
+=== Lonestar ===
+{{{
+$ ./configure --prefix=$PYMCT_ROOT --with-F90=$F90 --with-F90-vendor=$CHASM_FORTRAN_VENDOR CFLAGS="-fPIC" F90FLAGS="-fPIC"
+}}}
+
+I think that StageOneInstallPyMCT may need to be revamped to include -fPIC (for creating position independent code, useful for dynamic linking) in the FCFLAGS and F90FLAGS environment variables, at least on lonestar.
 
 == Step 3:  Building and Installing ==
 
@@ -46,6 +54,7 @@ $ make install
 }}}
 
 || [InstallPyMCT] || [NumpyInstall] ||
+
 
 
 
