@@ -39,6 +39,7 @@ This stage adds the basic modules required by Babel and PyMCT.  These are straig
   * Python Array Modules
 [ChasmInstall]
 [NumpyInstall]
+[LibXML]
 
 === Babel ===
 This stage builds the Babel Compiler.  This is a large and sophisticated application.  
