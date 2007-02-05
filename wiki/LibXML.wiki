@@ -1,0 +1,31 @@
+#summary Babel Python requires LibXML
+
+= Obtaining: =
+
+ftp://xmlsoft.org/libxml2/
+{{{
+lslogin1% wget ftp://xmlsoft.org/libxml2/libxml2-2.6.11.tar.gz
+lslogin1% pwd
+/san/hpc/A-ig2/steder/Sandbox
+lslogin1% ls
+babel-1.0.2         chasm                  MCT               Numeric-24.2.installed  numpy-1.0.1.tar.gz
+babel-1.0.2.tar.gz  chasm_1.4.RC1.tar.gz   MCTnodata.tar.gz  Numeric-24.2.tar.gz     Python-2.5
+babel.tar.gz        libxml2-2.6.11.tar.gz  Numeric-24.2      numpy-1.0.1             Python-2.5.tgz
+lslogin1% tar -zxf libxml2-2.6.11.tar.gz 
+
+}}}
+
+= Config =
+
+= Build =
+
+= Install =
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
+
