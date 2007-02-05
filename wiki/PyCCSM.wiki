@@ -1,0 +1,67 @@
+#summary Overview of the PyCCSM codebase
+
+= Introduction =
+
+= Overview =
+
+== Python files ==
+
+{{{
+main.py
+coupler.py
+flux.py
+frac.py
+cpl/
+cpl/__init__.py
+cpl/attributevector.py*   
+cpl/bundle.py - Defunct "bundle" object.
+cpl/comm.py
+cpl/const.py
+cpl/contract.py
+cpl/control.py
+cpl/debug.py
+cpl/decomposition.py
+cpl/domain.py
+cpl/error.py
+cpl/fields.py
+cpl/infobuffer.py
+cpl/interface.py - Placeholder for simple interface functions to be used by coupler.py
+cpl/map.py
+cpl/rearranger.py
+cpl/timer.py
+cpl/shr/__init__.py
+cpl/shr/cal.py
+cpl/shr/const.py
+cpl/shr/date.py
+cpl/shr/orb.py
+}}}
+
+
+= In-depth =
+
+== MCT Types (Exposed by Babel) ==
+
+== PyMCT Types (Convenience) ==
+
+Within the main _CPL_ package the following files wrap the MCT types exposed by Babel to make them a bit
+easier to manipulate, and to prevent and handle common errors.
+
+ * cpl/attributevector.py
+ * cpl/domain.py
+ * cpl/map.py
+
+== Python Logic and Computations ==
+
+The coupler logic is recreated in Python in the following files:
+
+=== Basic Dependencies ===
+
+date, calendar
+
+=== Coupler ===
+
+* cpl/contract.py
+* cpl/comm.py
+* cpl/domain.py
+* cpl/map.py
+
