@@ -1,0 +1,8 @@
+#summary The most recent Chasm has support for PGF
+
+= Introduction =
+
+Chasm 1.4RC1+ has support for the Portland Group series of Fortran Compilers.
+
+
+
