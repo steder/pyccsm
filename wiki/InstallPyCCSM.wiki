@@ -15,9 +15,88 @@ Replacing MPH without own initialization routine is a 3 step process.  First, we
 
 === Step 1: Adding our alternate start up ===
 
+*Download* the PyCCSM initialization code from this site:
+[http://pyccsm.googlecode.com/svn/trunk/cpl_comm_mod.F90.withoutMPH cpl_comm_mod.F90.withoutMPH]
+
+*Locate* your CCSM source.  It is likely in a subdirectory like _ccsm3\_0_ on your system.
+Find it and change directories to it.
+{{{
+$ pwd
+/home/steder/
+$ ls | grep -i ccsm
+ccsm3_0/
+CCSM.txt
+$ cd ccsm3_0/
+$ ls
+Copyright*  models/  README*  scripts/
+$ cd models/
+$ ls
+atm/  bld/  cpl/  csm_share/  dead/  ice/  lnd/  ocn/  utils/
+$ cd csm_share/
+$ ls
+cpl/  shr/
+$ cd cpl/
+$ ls
+cpl_bundle_mod.F90*    cpl_control_mod.F90*  cpl_interface_mod.F90*  cpl_map_mod.F90*
+cpl_comm_mod.F90*      cpl_domain_mod.F90*   cpl_iobin_mod.F90*      cpl_mct_mod.F90*
+cpl_const_mod.F90*     cpl_fields_mod.F90*   cpl_iocdf_mod.F90*      netcdf.inc*
+cpl_contract_mod.F90*  cpl_infobuf_mod.F90*  cpl_kind_mod.F90*
+}}}
+
+Now we need to take this file and put it in place of the original.  So first we'll move the original file someplace so we can retrieve it if we ever need it.
+
+{{{
+$ cp cpl_comm_mod.F90 cpl_comm_mod.F90.backup
+}}}
+
+Then we'll go ahead and download the new version to this directory
+{{{
+$ wget http://pyccsm.googlecode.com/svn/trunk/cpl_comm_mod.F90.withoutMPH 
+--17:44:39--  http://pyccsm.googlecode.com/svn/trunk/cpl_comm_mod.F90.withoutMPH
+           => `cpl_comm_mod.F90.withoutMPH'
+Resolving pyccsm.googlecode.com... done.
+Connecting to pyccsm.googlecode.com[66.102.1.82]:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 17,137 [text/plain]
+
+100%[============================================================>] 17,137        74.05K/s    ETA 00:00
+
+17:44:40 (74.05 KB/s) - `cpl_comm_mod.F90.withoutMPH' saved [17137/17137]
+
+$ ls
+cpl_bundle_mod.F90*          cpl_contract_mod.F90*  cpl_interface_mod.F90*  cpl_mct_mod.F90*
+cpl_comm_mod.F90*            cpl_control_mod.F90*   cpl_iobin_mod.F90*      netcdf.inc*
+cpl_comm_mod.F90.backup*     cpl_domain_mod.F90*    cpl_iocdf_mod.F90*
+cpl_comm_mod.F90.withoutMPH  cpl_fields_mod.F90*    cpl_kind_mod.F90*
+cpl_const_mod.F90*           cpl_infobuf_mod.F90*   cpl_map_mod.F90*
+}}}
+
+And finally, we'll copy the new initialization code over the original.  Remember, we should also have a backup of the original initialization code somewhere.
+{{{
+$ cp cpl_comm_mod.F90.withoutMPH cpl_comm_mod.F90
+cp: overwrite `cpl_comm_mod.F90'? y
+}}}
+
+
+
+
 ReplacementMPH
 
 === Step 2: Setting up our SourceMods ===
 
 SourceMods
 
+== PyCPL ==
+
+=== Dependencies ===
+
+First we'll need to install MaroonMPI and PyCDF.
+
+Instructions for each can be found:
+
+=== Installation ===
+
+Finally, we have to 
+ * download the PyCPL mapping data files for our specific CCSM resolution
+ * Check, modify, and confirm the settings in cpl.nml
+ * Update the logpath inside the main.py script.
