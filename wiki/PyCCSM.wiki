@@ -88,22 +88,3 @@ WhyRemoveMergeMod
  * cpl/rearranger.py -> Rearranger
 
 For some justification of why these layers were deemed necessary take a look at WhyWrapBabelTypes
-
-= Installation =
-
-== MPI ==
-
-You need MPI with Dynamic Library support to properly handle MPI_Init within a multi-language executable.
-
-== PyMCT ==
-InstallPyMCT
-
-== CCSM ==
-
-=== Modifying CCSM ===
-
-ReplacementMPH
-
-=== Source Mods ===
-
-SourceMods
