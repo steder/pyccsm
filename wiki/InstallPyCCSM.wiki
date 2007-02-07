@@ -1,0 +1,23 @@
+#summary Start page for installing / running PyCCSM
+
+= Installation =
+
+== PyMCT ==
+InstallPyMCT
+
+== CCSM ==
+
+Assuming you have a CCSM built on your platform of choice, it's relatively straightforward to modify it to be compatible with our Python coupler.
+
+The main difference between PyCCSM and CCSM is that MPH is not used for initialization.  Other then that the 2 codebases are identical.
+
+Replacing MPH without own initialization routine is a 3 step process.  First, we add our initialization routine to the CCSM shared source.  Next, we copy the main program of each component model into our CCSM Case's _SourceMods_ directory and slightly modify the source to call the new initialization routine.  Finally, we recompile CCSM using the standard CCSM build system.
+
+=== Step 1: Adding our alternate start up ===
+
+ReplacementMPH
+
+=== Step 2: Setting up our SourceMods ===
+
+SourceMods
+
