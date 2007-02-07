@@ -71,10 +71,14 @@ cpl/shr/orb.py - Basic orbital physics functions (Reimplemented from CPL6)
  * cpl/error.py
  * coupler.py
 
+NewCouplerCode
+
 == Dropped Code ==
 
  * cpl/bundle.py -> Replaced by an attributevector
  * merge.py (merge_mod.F90) -> Rolled into coupler.py
+
+WhyRemoveMergeMod
 
 == Wrapped Babel+MCT types ==
 
@@ -83,3 +87,23 @@ cpl/shr/orb.py - Basic orbital physics functions (Reimplemented from CPL6)
  * cpl/map.py -> SparseMatrix
  * cpl/rearranger.py -> Rearranger
 
+For some justification of why these layers were deemed necessary take a look at WhyWrapBabelTypes
+
+= Installation =
+
+== MPI ==
+
+You need MPI with Dynamic Library support to properly handle MPI_Init within a multi-language executable.
+
+== PyMCT ==
+InstallPyMCT
+
+== CCSM ==
+
+=== Modifying CCSM ===
+
+ReplacementMPH
+
+=== Source Mods ===
+
+SourceMods
