@@ -100,3 +100,16 @@ Finally, we have to
  * download the PyCPL mapping data files for our specific CCSM resolution
  * Check, modify, and confirm the settings in cpl.nml
  * Update the logpath inside the main.py script.
+
+
+= Running PyCCSM =
+
+== Modifying CCSM Run Scripts ==
+
+Involves:
+ * Make a copy of one of your CCSM run scripts
+ * Edit the copy ... example coming
+
+Very dependent on your specific computing environment.
+
+
