@@ -1,5 +1,7 @@
 #summary Start page for installing / running PyCCSM
 
+|| PyCCSM ||
+
 = Installation =
 
 == PyMCT ==
@@ -112,4 +114,4 @@ Involves:
 
 Very dependent on your specific computing environment.
 
-
+|| PyCCSM ||
