@@ -1,11 +1,11 @@
 #summary Start page for installing / running PyCCSM
 
-|| PyCCSM ||
+|| [PyCCSM] ||
 
 = Installation =
 
 == PyMCT ==
-InstallPyMCT
+[InstallPyMCT]
 
 == CCSM ==
 
@@ -92,7 +92,7 @@ SourceMods
 
 === Dependencies ===
 
-First we'll need to install MaroonMPI and PyCDF.
+First we'll need to install [MaroonMPI] and [PyCDF].
 
 Instructions for each can be found:
 
