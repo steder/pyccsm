@@ -28,7 +28,7 @@ This should take a few minutes to finish processing.
 
 Space reserved.
 
-== Building the PyMCT Server Library ==
+== Building the PyMCT Client Library(ies) ==
 
 There's really a single command to run to build the client libraries.  However, it is a fairly long and complex command.  The only thing that you have to be careful off in the following commands is that you will need to replace python2.4 with the appropriate pythonX.Y major and minor version numbers for the version you are using.  This means that Python 2.5 users will substitude python2.5 for python2.4 in the following.
 
@@ -63,10 +63,10 @@ $ $PYTHON setup.py install
 
 {{{
 $ pwd
-/san/hpc/A-ig2/steder/Sandbox/MCT/babel/mctclient-python
+/home/steder/Sandbox/MCT/babel/mctclient-python
 $ cd ../
 $ pwd
-/san/hpc/A-ig2/steder/Sandbox/MCT/babel
+/home/steder/Sandbox/MCT/babel
 $ ls
 CVS             genscl.py  mctclient-c++           mctserver        README
 example-c++     impls      mctclient-python        mctserver-1.0.2
@@ -103,7 +103,7 @@ Now import the MCT module and try instantiating a basic object.
 >>> import MCT
 >>> from MCT import AttrVect
 Loading main: ok
-Searching for class MCT.AttrVect, target ior/impl, file /san/hpc/A-ig2/steder/pyMCT//lib/
+Searching for class MCT.AttrVect, target ior/impl, file /home/steder/pyMCT//lib/
 >>> av = AttrVect.AttrVect()
 >>> av.init("hello:world","from:mct",10)
 }}}
