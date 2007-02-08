@@ -41,10 +41,15 @@ example-python/  impls/     mctclient-c++/  MCT.sidl
 
 == Configuring ==
 
+First we'll copy a few implementation files to the mctserver directory.
+{{{
+$ cp impls/* mctserver/
+}}}
+
 From this directory you can regenerate the babel bindings with your specific version of Babel by running the following command:
 
 {{{
-$PYMCT_ROOT/$BABEL/bin/babel -sf90 MCT.sidl -o mctserver/
+$ $PYMCT_ROOT/$BABEL/bin/babel -sf90 MCT.sidl -o mctserver/
 }}}
 
 This should take a few minutes to finish processing.
