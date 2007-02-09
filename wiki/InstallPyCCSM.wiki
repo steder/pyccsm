@@ -1,4 +1,5 @@
 #summary Start page for installing / running PyCCSM
+#labels Featured,Phase-Deploy
 
 || [PyCCSM] ||
 
@@ -786,5 +787,4 @@ echo "`date` -- CSM EXECUTION HAS FINISHED"
 Very dependent on your specific computing environment.
 
 || PyCCSM ||
-
 
