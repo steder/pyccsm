@@ -68,6 +68,7 @@ cpl/shr/orb.py - Basic orbital physics functions (Reimplemented from CPL6)
 
 == New Code ==
 
+ * cpl/attributevector.py
  * cpl/decomposition.py
  * cpl/timer.py
  * cpl/debug.py
