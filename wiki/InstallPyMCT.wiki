@@ -1,4 +1,5 @@
 #summary Overview installation instructions for PyMCT
+#labels Featured,Phase-Deploy
 
 || [PyMCT]  ||
 || [StageZeroInstallPyMCT] || [StageOneInstallPyMCT] ||
@@ -58,6 +59,5 @@ This is our final stage which consists of just installing some useful utility pa
 
 || [PyMCT]  ||
 || [StageZeroInstallPyMCT] || [StageOneInstallPyMCT] ||
-
 
 
