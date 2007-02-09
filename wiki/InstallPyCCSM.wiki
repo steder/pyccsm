@@ -229,6 +229,177 @@ lrwxrwxrwx  1 steder users 14 Feb  8 23:30 dead.F90 -> ../../dead.F90
 
 === Live Model Case ===
 
+The live model case is the most complicated because each live model has a different initialization code.  However, it really isn't much more complicated then the dead model case.  I'll simply go over the important files and their modifications briefly.
+
+{{{
+steder@joxaren:~/ccsm3_0/scripts/pyccsmtest$ ls SourceMods/src.cam SourceMods/src.clm/ SourceMods/src.csim/ SourceMods/src.clm/
+SourceMods/src.cam:
+README  cam.F90  
+
+SourceMods/src.clm/:
+README  clm_csmMod.F90
+
+SourceMods/src.csim/:
+README  ice_coupling.F
+
+SourceMods/src.pop/:
+README  forcing_coupled.F
+}}}
+
+*Editing cam.F90*
+First, get the source file:
+{{{
+cp ../../models/atm/cam/src/control/cam.F90 .
+ln -s ../../cam.F90 SourceMods/src.cam/cam.F90
+}}}
+
+Now update the use statements (starts at line 34):
+{{{
+#if (defined COUP_CSM)
+   use shr_msg_mod
+   use cpl_interface_mod
+   use cpl_fields_mod
+   ! Add this use statement:
+   use cpl_comm_mod 
+#endif
+}}}
+
+Now search for "cpl_interface_init" and replace it with "cpl_comm_init" (starts at line 100)
+{{{
+!                                                                                               
+! Initialize internal/external MPI if appropriate                                               
+!                                                                                               
+#if ( defined COUP_CSM )
+   call shr_msg_stdio('atm')
+   !call cpl_interface_init(cpl_fields_atmname,mpicom)
+   call cpl_comm_init( cpl_fields_atmname, mpicomm )
+#endif
+}}}
+
+*Editing clm_csmMod.F90*
+First, get the source file:
+{{{
+$ cp ../../models/lnd/clm2/src/main/clm_csmMod.F90 .
+$ ln -s ../../clm_csmMod.F90 SourceMods/src.clm/clm_csmMod.F90
+}}}
+
+Now update the use statements (starts at line 23):
+{{{
+! !USES:                                                                                        
+  use shr_kind_mod, only: r8 => shr_kind_r8
+  use nanMod
+  use clm_varpar
+#if (defined SPMD)
+  use spmdMod        , only : masterproc, mpicom
+  use spmdGathScatMod, only : gather_data_to_master
+#else
+  use spmdMod        , only : masterproc
+#endif
+  use mpiinc
+  use cpl_fields_mod
+  use cpl_contract_mod
+  use cpl_interface_mod
+  ! add this use statement!
+  use cpl_comm_mod
+}}}
+
+Now search for "cpl_interface_init" and replace it with "cpl_comm_init" (Starting at line 206)
+{{{
+! !LOCAL VARIABLES:                                                                             
+!------------------------------------------------------------------------                       
+
+   !call cpl_interface_init(cpl_fields_lndname,mpicom)
+   call cpl_comm_init(cpl_fields_lndname,mpicomm)
+}}}
+
+*Editing ice_coupling.F*
+
+First, get the source file:
+{{{
+$ cp ../../models/ice/csim4/src/source/ice_coupling.F .
+$ ln -s ../../ice_coupling.F SourceMods/src.csim/ice_coupling.F
+}}}
+
+Now update the use statements (Starting at line 23):
+{{{
+! !USES:                                                                                        
+!                                                                                               
+      use ice_kinds_mod
+      use ice_model_size
+      use ice_constants
+      use ice_calendar
+      use ice_grid
+      use ice_state
+      use ice_flux
+      use ice_albedo
+      use ice_mpi_internal
+      use ice_timers
+      use ice_fileunits
+      use ice_work, only: worka, work_l1
+#ifdef coupled
+      use shr_sys_mod, only : shr_sys_flush
+      use ice_history, only : runtype
+      use cpl_contract_mod
+      use cpl_interface_mod
+      use cpl_fields_mod
+      ! Add this line:
+      use cpl_comm_mod
+}}}
+
+Now search for "cpl_interface_init" and replace it with "cpl_comm_init" (Starting at line 102)
+{{{
+     write(nu_diag,*) 'calling cpl_interface_init for model: ',
+     &     in_model_name,' ', trim(cpl_fields_icename)
+
+!      call cpl_interface_init(cpl_fields_icename,model_comm)
+     call cpl_comm_init(cpl_fields_icename, model_comm)
+}}}
+
+
+*Editing forcing_coupled.F*
+
+First, get the source file:
+{{{
+$ cp ../../models/ocn/pop/source/forcing_coupled.F .
+$ ln -s ../../forcing_coupled.F SourceMods/src.pop/forcing_coupled.F
+}}}
+
+Now update the use statements (Starting at line 13):
+{{{
+      use kinds_mod
+      use model_size
+      use domain
+      use communicate
+      use constants
+      use io
+      use stencils
+      use time_management
+      use grid
+      use prognostic
+      use exit_mod
+      use ice
+      use forcing_shf
+      use forcing_sfwf
+      use qflux_mod
+      use ms_balance
+      use timers
+      use cpl_contract_mod
+      use cpl_interface_mod
+      ! Add this line!
+      use cpl_init_mod
+      use cpl_fields_mod
+      use shr_sys_mod
+      use registry
+}}}
+
+Now search for "cpl_interface_init" and replace it with "cpl_comm_init" (Starting at line 1509)
+{{{
+!      call cpl_interface_init(cpl_fields_ocnname,MPI_COMM_OCN)
+      call cpl_comm_init(cpl_fields_ocnname, MPI_COMM_OCN)
+      end subroutine ocn_coupling_setup
+}}}
+
+
 === Modifying the Fortran Coupler ===
 
 If you would like to run CCSM with the Fortran coupler (perhaps to simply verify that CCSM runs properly with the new initialization routine, here's a quick description of the modifications necessary to force the CCSM coupler to use the new initialization.
@@ -314,6 +485,9 @@ Changes to:
    !call cpl_interface_init(cpl_fields_cplname,local_comm)
    call cpl_comm_init(cpl_fields_cplname, local_comm)
 }}}
+
+That's it!  Your Fortran Coupler should now be using the new initialization code.  All you should have to do is rebuild the case.
+
 == PyCPL ==
 
 === Dependencies ===
@@ -341,3 +515,5 @@ Involves:
 Very dependent on your specific computing environment.
 
 || PyCCSM ||
+
+
