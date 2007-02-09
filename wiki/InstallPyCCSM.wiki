@@ -506,16 +506,141 @@ Finally, we have to
  * Check, modify, and confirm the settings in cpl.nml
  * Update the logpath inside the main.py script.
 
+*Download the PyCCSM Source*
+
+You can download the source either through anonymous SVN or from the download page on this site.
+
+Place the source in a convenient place on your system and unpack it (i.e.):
+{{{
+$ pwd
+/home/steder/Sandbox
+$ ls
+pyccsm_r112_2-8-07.tar.gz
+$ tar -zxf pyccsm_r112_2-8-07.tar.gz
+$ cd pyccsm_r112_2-8-07
+}}}
+
+*Download the PyCPL Mapping Data from Earth Systems Grid*
+
+*Update cpl.nml*
+
+*Update main.py script*
 
 = Running PyCCSM =
 
 == Modifying CCSM Run Scripts ==
 
-Involves:
- * Make a copy of one of your CCSM run scripts
- * Edit the copy ... example coming
+=== Make a copy of one of your CCSM run scripts ===
 
+Imagine we're working with that pyccsm-dead-models case we were using earlier:
+{{{
+$ pwd
+/home/steder/ccsm3_0/scripts/pyccsm-dead-models
+$ ls
+Buildexe/           configure*  env_mach.jazz*                  pyccsm-dead-models.jazz.run*
+Buildlib/           dead.F90    env_run
+Buildnml_Prestage/  env.readme  main.F90
+SourceMods/         env_conf    pyccsm-dead-models.jazz.build*
+$ cp pyccsm-dead-models.jazz.run custom.run
+$ ls
+Buildexe/           SourceMods/  dead.F90    env_mach.jazz*  pyccsm-dead-models.jazz.build*
+Buildlib/           configure*   env.readme  env_run         pyccsm-dead-models.jazz.run*
+Buildnml_Prestage/  custom.run*  env_conf    main.F90
+}}}
+
+=== Editing the copy ===
+
+Let's take a look inside custom.run.  We're looking specifically at lines 82-94:
+{{{
+# -------------------------------------------------------------------------                     
+# Run the model                                                                                 
+# -------------------------------------------------------------------------                     
+
+env | egrep '(MP_|LOADL|XLS|FPE|DSM|OMP|MPC)' # document env vars                               
+
+cd $EXEROOT/all
+paste ${PBS_NODEFILE} mpirun.pgfile1 > mpirun.pgfile
+echo "`date` -- CSM EXECUTION BEGINS HERE"
+mpirun -pg mpirun.pgfile ./$COMPONENTS[1]
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED"
+}}}
+
+*Assuming we're using MPICH2*
+
+First we'll comment out the above lines between "cd $EXEROOT/all" and "wait"
+{{{
+# -------------------------------------------------------------------------                     
+# Run the model                                                                                 
+# -------------------------------------------------------------------------                     
+
+env | egrep '(MP_|LOADL|XLS|FPE|DSM|OMP|MPC)' # document env vars                               
+
+cd $EXEROOT/all
+##paste ${PBS_NODEFILE} mpirun.pgfile1 > mpirun.pgfile
+##echo "`date` -- CSM EXECUTION BEGINS HERE"
+##mpirun -pg mpirun.pgfile ./$COMPONENTS[1]
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED"
+}}}
+
+Now we'll add our new MPICH2 run code:
+ * We need to start MPD on the nodes in _${PBS_NODEFILE}_
+{{{
+# -------------------------------------------------------------------------                     
+# Run the model                                                                                 
+# -------------------------------------------------------------------------                     
+
+env | egrep '(MP_|LOADL|XLS|FPE|DSM|OMP|MPC)' # document env vars                               
+
+cd $EXEROOT/all
+##paste ${PBS_NODEFILE} mpirun.pgfile1 > mpirun.pgfile
+##echo "`date` -- CSM EXECUTION BEGINS HERE"
+##mpirun -pg mpirun.pgfile ./$COMPONENTS[1]
+mpdboot -n `wc -l < $PBS_NODEFILE` -f $PBS_NODEFILE
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED"
+}}}
+
+ * We can now go ahead and add the MPICH2 equivalent of mpirun (This example runs all the Fortran components, including the Fortran coupler using MPICH2):
+{{{
+# -------------------------------------------------------------------------                     
+# Run the model                                                                                 
+# -------------------------------------------------------------------------                     
+
+env | egrep '(MP_|LOADL|XLS|FPE|DSM|OMP|MPC)' # document env vars                               
+
+cd $EXEROOT/all
+##paste ${PBS_NODEFILE} mpirun.pgfile1 > mpirun.pgfile
+##echo "`date` -- CSM EXECUTION BEGINS HERE"
+##mpirun -pg mpirun.pgfile ./$COMPONENTS[1]
+mpdboot -n `wc -l < $PBS_NODEFILE` -f $PBS_NODEFILE
+mpiexec -l -n $NTASKS[1] $COMPONENTS[1] : -n $NTASKS[2] $COMPONENTS[2] : -n $NTASKS[3] $COMPONE
+NTS[3] : -n $NTASKS[4] $COMPONENTS[4] : -n $NTASKS[5] $COMPONENTS[5]
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED"
+}}}
+
+ * This example runs the Python Coupler with the Fortran Components using MPICH2:
+( $PYTHON must be defined as a variable that points to your Python interpreter and $COUPLER_PY must be defined as the PyCCSM/main.py script )
+{{{
+# -------------------------------------------------------------------------                     
+# Run the model                                                                                 
+# -------------------------------------------------------------------------                     
+
+env | egrep '(MP_|LOADL|XLS|FPE|DSM|OMP|MPC)' # document env vars                               
+
+cd $EXEROOT/all
+##paste ${PBS_NODEFILE} mpirun.pgfile1 > mpirun.pgfile
+##echo "`date` -- CSM EXECUTION BEGINS HERE"
+##mpirun -pg mpirun.pgfile ./$COMPONENTS[1]
+mpdboot -n `wc -l < $PBS_NODEFILE` -f $PBS_NODEFILE
+mpiexec -l -n 1 $PYTHON $COUPLER_PY : -n $NTASKS[2] $COMPONENTS[2] : -n $NTASKS[3] 
+$COMPONENTS[3] : -n $NTASKS[4] $COMPONENTS[4] : -n $NTASKS[5] $COMPONENTS[5]
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED"
+}}}
+=== NOTE ===
 Very dependent on your specific computing environment.
 
 || PyCCSM ||
-
