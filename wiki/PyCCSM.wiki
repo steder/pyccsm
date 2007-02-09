@@ -87,8 +87,6 @@ WhyRemoveMergeMod
 == Wrapped Babel+MCT types ==
 
  * cpl/attributevector.py -> AttrVect
- * cpl/domain.py -> GlobalSegMap
- * cpl/map.py -> SparseMatrix
  * cpl/rearranger.py -> Rearranger
 
 For some justification of why these layers were deemed necessary take a look at WhyWrapBabelTypes
