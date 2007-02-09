@@ -522,9 +522,151 @@ $ cd pyccsm_r112_2-8-07
 
 *Download the PyCPL Mapping Data from Earth Systems Grid*
 
+Visit [http://www.earthsystemgrid.org/ http://www.earthsystemgrid.org/]
+
+Look for a link to "Browse" the CCSM "Dataset Catalog" and follow the link.
+
+Then select 
+CCSM 3.0 Release( CCSM 3.0 source code and input data )
+
+And then:
+CCSM 3.0 input data
+
+Finally you'll see a listing of data files available for download.
+If you know the specific resolution you're interested in running you can browse for and download only those files.  However, there's a simple option for users who may be interested in doing more general runs on all sorts of resolutions and that is the "coupler data files for all resolutions" link on this page.  
+
+Download and unpack this file and you should see:
+{{{
+$ tar -xf ccsm3.0.inputdata.cpl.tar
+$ ls
+ccsm3.0.inputdata.cpl.tar  inputdata/                 inputdata_user/
+$ cd inputdata/cpl/cpl6/
+$ ls
+map_2x25d_to_gx1v3_aave_da_030226.nc    map_T85_to_gx1v3_aave_da_020405.nc
+map_2x25d_to_gx1v3_bilin_da_030226.nc   map_T85_to_gx1v3_bilin_da_020405.nc
+map_T31_to_gx3v5_aave_da_040122.nc      map_gx1v3_to_2x25d_aave_da_030226.nc
+map_T31_to_gx3v5_bilin_da_040122.nc     map_gx1v3_to_T42_aave_da_010709.nc
+map_T42_to_gx1v3_aave_da_010709.nc      map_gx1v3_to_T62_aave_da_010806.nc
+map_T42_to_gx1v3_bilin_da_010710.nc     map_gx1v3_to_T85_aave_da_020405.nc
+map_T42_to_gx3v5_aave_da_040122.nc      map_gx3v5_to_T31_aave_da_040122.nc
+map_T42_to_gx3v5_bilin_da_040122.nc     map_gx3v5_to_T42_aave_da_040122.nc
+map_T62_to_gx1v3_aave_da_010806.nc      map_gx3v5_to_T62_aave_da_040506.nc
+map_T62_to_gx1v3_bilin_da_010806.nc     map_r05_to_gx1v3_roff_smooth_010718.nc
+map_T62_to_gx3v5_aave_da_040506.nc      map_r05_to_gx3v5_e2000r500_040209.nc
+map_T62_to_gx3v5_bilin_da_040506.nc
+}}}
+
+You'll need to copy the appropriate data files (or symbolic link them) to the PyCCSM data subdirectory.  Your data subdirectory should look something like:
+{{{
+-bash-2.05b$ ls -l
+total 126524
+-rwxr-xr-x    1 steder   mcsz          811 Oct 17 09:48 cpl.nml*
+-rwxr-xr-x    1 steder   mcsz          817 Oct 17 09:54 cpl.stdin*
+-rwxr-xr-x    1 steder   mcsz          118 Oct 17 09:49 cpl_stdio.nml*
+-rwxr-xr-x    1 steder   mcsz      2343760 Oct 17 09:49 map_gx3v5_to_T31_aave_da_040122.nc*
+-rwxr-xr-x    1 steder   mcsz     122436572 Oct 17 09:54 map_r05_to_gx3v5_e2000r500_040209.nc*
+-rwxr-xr-x    1 steder   mcsz      2343760 Oct 17 09:49 map_T31_to_gx3v5_aave_da_040122.nc*
+-rwxr-xr-x    1 steder   mcsz      2128656 Oct 17 09:49 map_T31_to_gx3v5_bilin_da_040122.nc*
+}}}
+
 *Update cpl.nml*
 
+The most important variables to change here are:
+ * map_a2of_fn: filename of the mapping between the atmosphere and ocean fluxes
+ * map_a2os_fn: filename of the mapping between the atmosphere and ocean surfaces
+ * map_o2af_fn: filename of the mapping datafile between the ocean and atmosphere fluxes
+ * map_r2o_fn: filename of the mapping datafile between river and ocean data 
+{{{
+  &inparm                                                                                       
+  case_name     = 'deadtest '                                                                   
+  case_desc     = 'deadtest deadtest '                                                          
+  start_type    = "initial"                                                                     
+  start_date    =  00010101                                                                     
+  start_pfile   = 'rpointer.cpl '                                                               
+  start_bfile   = "null"                                                                        
+  stop_option   = 'ndays'                                                                       
+  stop_n        =  2                                                                            
+  rest_option   = 'ndays'                                                                       
+  rest_n        =  5                                                                            
+  diag_option   = 'ndays'                                                                       
+  diag_n        =  10                                                                           
+  hist_option   = 'never'                                                                       
+  hist_n        =  -999                                                                         
+  hist_64bit    =  .false.                                                                      
+  avhist_option = "never"                                                                       
+  avhist_n      =  -999                                                                         
+  map_a2of_fn   = "map_T31_to_gx3v5_aave_da_040122.nc"                                          
+  map_a2os_fn   = "map_T31_to_gx3v5_bilin_da_040122.nc"                                         
+  map_o2af_fn   = "map_gx3v5_to_T31_aave_da_040122.nc"                                          
+  map_r2o_fn    = "map_r05_to_gx3v5_e2000r500_040209.nc"                                        
+  orb_year      =  1990                                                                         
+  flx_epbal     = 'off'                                                                         
+  flx_albav     = .false.                                                                       
+  info_dbug     =  1                                                                            
+  bfbflag       = .false.                                                                       
+  /                                                                                             
+}}}
+
+The above variables have to be edited to point to the appropriate data files for the resolution of the models you've chosen.
+
 *Update main.py script*
+
+Finally you can modify the coupler script to change a number of behavior variables, choose the location for NetCDF log output, and decide the number of days you'd like the model to run.
+
+Here's what a typical main.py will look like:
+{{{
+#!/usr/bin/env python2.4                                                                        
+import os.path                                                                                  
+import time                                                                                     
+import traceback                                                                                
+abspath = os.path.abspath(__file__)                                                             
+basedir = os.path.dirname(abspath)                                                              
+ROOT=basedir                                                                                    
+                                                                                                
+import coupler                                                                                  
+                                                                                                
+def main():                                                                                     
+    print "pyCPL: Start!"                                                                       
+    # Coupler Path, doComputations, doMapping, initializeRiverMapping,Logging)                  
+    coupler.TIMER.start("total")                                                                
+    coupler.TIMER.start("init")                                                                 
+    print "pyCPL: Coupler root is",ROOT                                                         
+    LOGROOT= os.path.join("/home/steder/exe/pyccsm/nc",str(time.ctime()).replace(" ",""))       
+    print "pyCPL: NC Output path is",LOGROOT                                                    
+    c = coupler.Coupler(os.path.join(ROOT,"cpl","cpl.nml"),True,True,True,True,LOGROOT)         
+                                                                                                
+    coupler.TIMER.stop("init")                                                                  
+    c.run(5)                                                                                    
+    coupler.TIMER.stop("total")                                                                 
+    #print "StartDate:",cpl.date                                                                
+    coupler.cpl.comm.finalize()                                                                 
+    print "pyCPL: Done!"                                                                        
+    print coupler.TIMER                                                                         
+                                                                                                
+if __name__=="__main__":                                                                        
+    main()                                                                                      
+}}}
+
+This single line instantiates a coupler and sets a number of values for the length of the run:
+{{{
+    c = coupler.Coupler(os.path.join(ROOT,"cpl","cpl.nml"),True,True,True,True,LOGROOT)
+}}}
+
+The arguments to Coupler are as follows:
+Coupler( "/path/to/cpl.nml", DoComputations, DoMapping, DoRiverInitialization, DoLogging, "/path/to/output/logfiles/")
+
+The boolean values:
+ * DoComputations: turn off calculations before/after send/recv operations
+ * DoMapping: turn off mapping calculations
+ * DoRiverInitialization: the river initialization for some resolutions is extremely long.  This lets you turn it off to speed debugging/testing.
+ * DoLogging:  Enables a bunch of NetCDF output of data at various points in the coupler.  Useful for debugging.
+
+The other interesting thing about this file is the _run_ method which allows us to set the number of model days we'd like to simulate:
+{{{
+    c.run(5)                              
+}}}
+
+Simply change that 5 to the number of days you'd like to run.  At this time, the _run_ method doesn't support the ability to run for a fractional number of days (i.e. run a variable number of steps rather then days) but modifying _run_ to allow this behavior is pretty trivial.
 
 = Running PyCCSM =
 
