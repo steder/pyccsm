@@ -494,7 +494,10 @@ That's it!  Your Fortran Coupler should now be using the new initialization code
 
 First we'll need to install [MaroonMPI] and [PyCDF].
 
-Instructions for each can be found:
+Instructions for MaroonMPI can be found:
+[http://code.google.com/p/maroonmpi/ On MaroonMPI's Google Code page]
+
+Instructions for [PyCDF] can be found on our [PyCDF] page.
 
 === Installation ===
 
@@ -515,5 +518,4 @@ Involves:
 Very dependent on your specific computing environment.
 
 || PyCCSM ||
-
 
