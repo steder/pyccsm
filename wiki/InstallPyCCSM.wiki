@@ -79,15 +79,241 @@ $ cp cpl_comm_mod.F90.withoutMPH cpl_comm_mod.F90
 cp: overwrite `cpl_comm_mod.F90'? y
 }}}
 
-
-
-
-ReplacementMPH
-
 === Step 2: Setting up our SourceMods ===
 
-SourceMods
+Now we need to modify the main of each component program to use our replacement MPH:
 
+We'll most likely want to create a brand new CCSM case for our PyCCSM runs.  So we'll start by locating our CCSM scripts.  They're usually located in a subdirectory with the CCSM source distribution.  
+
+Assuming our CCSM 3 source is downloaded to our home directory in a directory called *ccsm3\_0* our scripts will be:
+{{{
+steder@joxaren:~/ccsm3_0/scripts$ pwd
+/home/steder/ccsm3_0/scripts
+steder@joxaren:~/ccsm3_0/scripts$ cd  
+steder@joxaren:~$ cd ccsm3_0/
+steder@joxaren:~/ccsm3_0$ pwd
+/home/steder/ccsm3_0
+steder@joxaren:~/ccsm3_0$ ls
+Copyright  README  models/  scripts/
+steder@joxaren:~/ccsm3_0$ cd scripts/
+steder@joxaren:~/ccsm3_0/scripts$ ls
+CCSM.txt  ccsm_utils/      create_test*  deadtest/  jazz_cases/
+README    create_newcase*  data/         fulltest/  pyccsmtest/
+}}}
+
+=== Dead Model Case ===
+
+First you will need to create a dead model case in CCSM.  You can do this by running the CCSM script *create\_newcase* with the following flags:
+
+{{{
+steder@joxaren:~/ccsm3_0/scripts$ ./create_newcase -case pyccsm-dead-models -mach jazz -res T31_gx3v5 -compset X 
+Successfully added env_mach.jazz to /home/steder/ccsm3_0/scripts/pyccsm-dead-models
+Successfully created new case root directory /home/steder/ccsm3_0/scripts/pyccsm-dead-models
+}}}
+
+Now let's change into our newly created test case directory:
+ 
+{{{
+steder@joxaren:~/ccsm3_0/scripts$ cd pyccsm-dead-models/
+steder@joxaren:~/ccsm3_0/scripts/pyccsm-dead-models$ ls
+SourceMods/  configure*  env.readme  env_conf  env_mach.jazz*  env_run
+}}}
+
+Assuming that the CCSM model source code is in the default location:
+
+{{{
+steder@joxaren:~/ccsm3_0/scripts/pyccsm-dead-models$ ls ../../models/                    
+atm/  bld/  cpl/  csm_share/  dead/  ice/  lnd/  ocn/  utils/
+}}}
+
+We'll now copy the dead model main program into our case's directory:
+
+{{{
+steder@joxaren:~/ccsm3_0/scripts/pyccsm-dead-models$ cp ../../models/dead/dead6/dead.F90 .
+steder@joxaren:~/ccsm3_0/scripts/pyccsm-dead-models$ ls
+SourceMods/  configure*  dead.F90  env.readme  env_conf  env_mach.jazz*  env_run
+}}}
+
+Now we'll edit dead.F90 to use our new initialization routine.  We're going to make just a few small modifications to this file.  Here's the first.
+
+*Add a use statement to include our new code*
+{{{
+subroutine dead_init()
+
+! !USES:                                                                                        
+
+   use cpl_interface_mod
+   use cpl_fields_mod
+   use cpl_contract_mod
+   use cpl_control_mod
+   use shr_const_mod
+   use shr_timer_mod
+   use shr_sys_mod
+   use shr_msg_mod
+   use shr_kind_mod
+   use data_mod
+
+   implicit none
+}}}
+
+The above needs to be modified by adding the following use statement (these are lines 59-73):
+{{{
+subroutine dead_init()
+
+! !USES:                                                                                        
+
+   use cpl_interface_mod
+   use cpl_fields_mod
+   use cpl_contract_mod
+   use cpl_control_mod
+   use shr_const_mod
+   use shr_timer_mod
+   use shr_sys_mod
+   use shr_msg_mod
+   use shr_kind_mod
+   use data_mod
+   use cpl_comm_mod 
+
+   implicit none
+}}}
+
+**
+
+Next, look for a little later on in the file(lines 204-206):
+{{{
+   !----------------------------------------------------------------------------   
+   ! initialize local MPH & MPI                                                                 
+   !----------------------------------------------------------------------------                
+   call cpl_interface_init(myModelName,local_comm)
+}}}
+
+We'll comment out the old call to cpl_interface_init and replace it with the following:
+{{{
+   !----------------------------------------------------------------------------   
+   ! initialize local MPH & MPI                                                                 
+   !----------------------------------------------------------------------------                
+   !call cpl_interface_init(myModelName,local_comm)
+   call cpl_comm_init(myModelName, local_comm)
+}}}
+
+Now we have a modified main for all 4 component dead models.  Let's place this in _SourceMods_ so our modifications will be included the next time we build this case.
+
+{{{
+$ ln -s ../../dead.F90 SourceMods/src.xice/dead.F90
+$ ln -s ../../dead.F90 SourceMods/src.xatm/dead.F90
+$ ln -s ../../dead.F90 SourceMods/src.xlnd/dead.F90
+$ ln -s ../../dead.F90 SourceMods/src.xocn/dead.F90
+$ ls
+SourceMods/  configure*  dead.F90  env.readme  env_conf  env_mach.jazz*  env_run
+$ ls -l SourceMods/src.x*/
+SourceMods/src.xatm/:
+total 8
+-rw-r--r--  1 steder users 59 Feb  8 23:10 README
+lrwxrwxrwx  1 steder users 14 Feb  8 23:30 dead.F90 -> ../../dead.F90
+
+SourceMods/src.xice/:
+total 8
+-rw-r--r--  1 steder users 59 Feb  8 23:10 README
+lrwxrwxrwx  1 steder users 14 Feb  8 23:30 dead.F90 -> ../../dead.F90
+
+SourceMods/src.xlnd/:
+total 8
+-rw-r--r--  1 steder users 59 Feb  8 23:10 README
+lrwxrwxrwx  1 steder users 14 Feb  8 23:30 dead.F90 -> ../../dead.F90
+
+SourceMods/src.xocn/:
+total 8
+-rw-r--r--  1 steder users 59 Feb  8 23:10 README
+lrwxrwxrwx  1 steder users 14 Feb  8 23:30 dead.F90 -> ../../dead.F90
+}}}
+
+=== Live Model Case ===
+
+=== Modifying the Fortran Coupler ===
+
+If you would like to run CCSM with the Fortran coupler (perhaps to simply verify that CCSM runs properly with the new initialization routine, here's a quick description of the modifications necessary to force the CCSM coupler to use the new initialization.
+
+*Get main.F90*
+{{{
+steder@joxaren:~/ccsm3_0/scripts/pyccsm-dead-models$ cp ../../models/cpl/cpl6/main.F90 .
+steder@joxaren:~/ccsm3_0/scripts/pyccsm-dead-models$ ln -s ../../main.F90 SourceMods/src. 
+src.cam   src.cpl   src.datm  src.dlnd  src.latm  src.xatm  src.xlnd  
+src.clm   src.csim  src.dice  src.docn  src.pop   src.xice  src.xocn  
+steder@joxaren:~/ccsm3_0/scripts/pyccsm-dead-models$ ln -s ../../main.F90 SourceMods/src.
+src.cam   src.cpl   src.datm  src.dlnd  src.latm  src.xatm  src.xlnd  
+src.clm   src.csim  src.dice  src.docn  src.pop   src.xice  src.xocn  
+steder@joxaren:~/ccsm3_0/scripts/pyccsm-dead-models$ ln -s ../../main.F90 SourceMods/src.cpl/main.F90
+steder@joxaren:~/ccsm3_0/scripts/pyccsm-dead-models$ ls -l SourceMods/src.cpl/
+total 8
+-rw-r--r--  1 steder users 152 Feb  8 23:10 README
+lrwxrwxrwx  1 steder users  14 Feb  8 23:35 main.F90 -> ../../main.F90
+}}}
+*Add the use statement*
+Lines 22-41:
+{{{
+program cpl
+
+! !USES:                                                                                        
+
+   use shr_date_mod       ! shr code: date/time data type & methods                             
+   use shr_msg_mod        ! shr code: i/o redirect, chdir                                       
+   use shr_sys_mod        ! shr code: wrappers to system calls                                  
+   use shr_timer_mod      ! shr code: timing utilities                                          
+   use shr_mpi_mod        ! shr code: mpi layer                                                 
+
+   use cpl_kind_mod       ! kinds for strong typing                                             
+   use cpl_mct_mod        ! wrapper/access to mct lib                                           
+   use cpl_comm_mod       ! MPI process & communicator group info                               
+   use cpl_fields_mod     ! fields lists common to cpl & components                             
+   use cpl_contract_mod   ! contract (message-passing) data type & methods                      
+   use cpl_interface_mod  ! contract/message-passing wrapper routines                           
+   use cpl_infobuf_mod    ! information buffer module                                           
+   use cpl_control_mod    ! control flags/logic subsystem module                                
+   use cpl_map_mod        ! mapping subsystem module                                            
+!  use cpl_iocdf_mod      ! netCDF file i/o routines (for debug data dumps)   
+}}}
+
+Simply add our updated module to this list:
+{{{
+program cpl
+
+! !USES:                                                                                        
+
+   use shr_date_mod       ! shr code: date/time data type & methods                             
+   use shr_msg_mod        ! shr code: i/o redirect, chdir                                       
+   use shr_sys_mod        ! shr code: wrappers to system calls                                  
+   use shr_timer_mod      ! shr code: timing utilities                                          
+   use shr_mpi_mod        ! shr code: mpi layer                                                 
+
+   use cpl_kind_mod       ! kinds for strong typing                                             
+   use cpl_mct_mod        ! wrapper/access to mct lib                                           
+   use cpl_comm_mod       ! MPI process & communicator group info                               
+   use cpl_fields_mod     ! fields lists common to cpl & components                             
+   use cpl_contract_mod   ! contract (message-passing) data type & methods                      
+   use cpl_interface_mod  ! contract/message-passing wrapper routines                           
+   use cpl_infobuf_mod    ! information buffer module                                           
+   use cpl_control_mod    ! control flags/logic subsystem module                                
+   use cpl_map_mod        ! mapping subsystem module                                            
+!  use cpl_iocdf_mod      ! netCDF file i/o routines (for debug data dumps)   
+   use cpl_comm_mod
+}}}
+
+*Change the init call*
+Lines 168-172:
+{{{
+   !----------------------------------------------------------------------------                
+   ! determine cpl6's MPI communicator group, redirect stdin/out as necessary                   
+   !----------------------------------------------------------------------------                
+   call cpl_interface_init(cpl_fields_cplname,local_comm)
+}}}
+Changes to:
+{{{
+   !----------------------------------------------------------------------------                
+   ! determine cpl6's MPI communicator group, redirect stdin/out as necessary                   
+   !----------------------------------------------------------------------------                
+   !call cpl_interface_init(cpl_fields_cplname,local_comm)
+   call cpl_comm_init(cpl_fields_cplname, local_comm)
+}}}
 == PyCPL ==
 
 === Dependencies ===
